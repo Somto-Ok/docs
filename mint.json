@@ -75,11 +75,17 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Transfer Endpoint",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/transfer/delete",
+        "api-reference/transfer/banks",
+        "api-reference/transfer/balance",
+        "api-reference/transfer/initialize-topup",
+        "api-reference/transfer/webhook",
+        "api-reference/transfer/kele-to-kele",
+        "api-reference/transfer/verify-kele-accountnumber",
+        "api-reference/transfer/interbank",
+        "api-reference/transfer/verify-accountnumber"
       ]
     }
   ],
