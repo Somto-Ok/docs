@@ -117,44 +117,6 @@
         }
       }
     },
-    "/transactions/fincra-webhook": {
-      "post": {
-        "description": "Initiates an Webhook",
-        "requestBody": {
-          "description": "Webhook transaction details",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InitializeTopUpRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Webhook successfully initiated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransferResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request, invalid parameters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/accounts/initiate_inter_bank_transfer": {
       "post": {
         "description": "Initiates an interbank transfer",
@@ -201,7 +163,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/KeleToKeleTransferRequest"
+                "$ref": "#/components/schemas/IntraTransferRequest"
               }
             }
           },
@@ -233,13 +195,13 @@
     },
     "/accounts/verify_kele_account_number": {
       "post": {
-        "description": "Initiates a Kele to Kele transfer",
+        "description": "Verifies a Kele account number",
         "requestBody": {
           "description": "Kele to Kele transfer details",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VerifyKeleAccountNumberRequest"
+                "$ref": "#/components/schemas/VerifyIntraAccountNumberRequest"
               }
             }
           },
@@ -251,7 +213,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransferResponse"
+                  "$ref": "#/components/schemas/VerifyIntraAccountNumberResponse"
                 }
               }
             }
@@ -306,7 +268,7 @@
           }
         }
       }
-    },     
+    },   
     "/plants/{id}": {
       "delete": {
         "description": "Deletes a single plant based on the ID supplied",
@@ -507,18 +469,6 @@
           }
         }
       },
-      "VerifyKeleAccountNumberRequest": {
-        "type": "object",
-        "required": [
-          "accountNumberOrPhone"
-        ],
-        "properties": {
-          "accountNumberOrPhone": {
-            "type": "string",
-            "description": "Recipient's account or phone number"
-          }
-        }
-      },
       "VerifyAccountNumberRequest": {
         "type": "object",
         "required": [
@@ -536,7 +486,78 @@
           }
         }
       },
-      "KeleToKeleTransferRequest": {
+      "VerifyIntraAccountNumberRequest": {
+        "type": "object",
+        "required": [
+          "accountNumberOrPhone"
+        ],
+        "properties": {
+          "accountNumberOrPhone": {
+            "type": "string",
+            "description": "Recipient's account or phone number"
+          }
+        }
+      },
+      "VerifyIntraAccountNumberResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates if the transfer was successful"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "accountNumber": {
+                "type": "string",
+                "description": "The destination account number"
+              },
+              "accountName": {
+                "type": "string",
+                "description": "The name associated with the account number"
+              },
+              "bankName": {
+                "type": "string",
+                "description": "Name of the bank where the account is held"
+              },
+              "bankCode": {
+                "type": "string",
+                "description": "The bank's unique identification code"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "description": "The phone number associated with the account"
+              },
+              "bank": {
+                "type": "string",
+                "description": "Bank name for the transfer"
+              },
+              "keleUserIdentify": {
+                "type": "string",
+                "description": "Unique identifier for the Kele user"
+              }
+            },
+            "required": [
+              "accountNumber",
+              "accountName",
+              "bankName",
+              "bankCode",
+              "phoneNumber",
+              "keleUserIdentify"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message describing the result of the operation"
+          }
+        },
+        "required": ["status", "statusCode", "data", "message"]
+      },
+      "IntraTransferRequest": {
         "type": "object",
         "required": [
           "accountNumberOrPhone",
@@ -558,6 +579,50 @@
           }
         }
       },
+      "IntraTransferResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates if the request was successful"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "integer",
+                "description": "The amount transferred"
+              },
+              "debitReference": {
+                "type": "string",
+                "description": "Reference for the debit transaction"
+              },
+              "creditReference": {
+                "type": "string",
+                "description": "Reference for the credit transaction"
+              },
+              "customerReference": {
+                "type": "string",
+                "description": "Reference provided by the customer, if any"
+              }
+            },
+            "required": [
+              "amount",
+              "debitReference",
+              "creditReference"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message describing the result of the operation"
+          }
+        },
+        "required": ["status", "statusCode", "data", "message"]
+      },    
       "Error": {
         "required": [
           "error",

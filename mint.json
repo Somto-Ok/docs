@@ -81,11 +81,17 @@
         "api-reference/transfer/banks",
         "api-reference/transfer/balance",
         "api-reference/transfer/initialize-topup",
-        "api-reference/transfer/webhook",
-        "api-reference/transfer/kele-to-kele",
-        "api-reference/transfer/verify-kele-accountnumber",
-        "api-reference/transfer/interbank",
+        "api-reference/transfer/intra-bank-transfer",
+        "api-reference/transfer/verify-intra-accountnumber",
+        "api-reference/transfer/inter-bank-transfer",
         "api-reference/transfer/verify-accountnumber"
+      ]
+    },
+    {
+      "group": "Virtual Account Endpoint",
+      "pages": [
+        "api-reference/virtual-account/individual",
+        "api-reference/virtual-account/corporate"
       ]
     }
   ],
