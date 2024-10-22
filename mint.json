@@ -75,10 +75,15 @@
       ]
     },
     {
+      "group": "",
+      "pages": [
+        "api-reference/transfer/balance"
+      ]
+    },
+    {
       "group": "Disbursement",
       "pages": [
         "api-reference/transfer/banks",
-        "api-reference/transfer/balance",
         "api-reference/transfer/intra-bank-transfer",
         "api-reference/transfer/verify-intra-accountnumber",
         "api-reference/transfer/inter-bank-transfer",
