@@ -87,19 +87,20 @@
     },
     {
       "group": "Collections",
-      "pages": ["api-reference/"]
-    },
-    {
-      "group": "Check Out",
       "pages": [
-        "api-reference/transfer/initialize-topup"
-      ]
-    },
-    {
-      "group": "Virtual Account",
-      "pages": [
-        "api-reference/virtual-account/individual",
-        "api-reference/virtual-account/corporate"
+        {
+          "group": "Check Out",
+          "pages": [
+            "api-reference/transfer/initialize-topup"
+          ]
+        },
+        {
+          "group": "Virtual Account",
+          "pages": [
+            "api-reference/virtual-account/individual",
+            "api-reference/virtual-account/corporate"
+          ]
+        }
       ]
     }
   ],
