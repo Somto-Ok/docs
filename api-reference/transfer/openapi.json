@@ -1,0 +1,618 @@
+{
+  
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Kele API",
+    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://stagingtwo.getkele.com/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/accounts/banks": {
+      "get": {
+        "description": "Returns all banks from the system",
+        "responses": {
+          "200": {
+            "description": "Banks response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Banks"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/balance": {
+      "get": {
+        "description": "Returns account balance from the system",
+        "responses": {
+          "200": {
+            "description": "Accounts response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Balance"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/initialize_topup": {
+      "post": {
+        "description": "Initializes a Top Up",
+        "requestBody": {
+          "description": "Top Up details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitializeTopUpRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Top Up successfully initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/initiate_inter_bank_transfer": {
+      "post": {
+        "description": "Initiates an interbank transfer",
+        "requestBody": {
+          "description": "Interbank transfer details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Transfer successfully initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/kele_to_kele_transfer": {
+      "post": {
+        "description": "Initiates a Kele to Kele transfer",
+        "requestBody": {
+          "description": "Kele to Kele transfer details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntraTransferRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Transfer successfully initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/verify_kele_account_number": {
+      "post": {
+        "description": "Verifies a Kele account number",
+        "requestBody": {
+          "description": "Kele to Kele transfer details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyIntraAccountNumberRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Transfer successfully initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyIntraAccountNumberResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }, 
+    "/accounts/verify_account_number": {
+      "post": {
+        "description": "Verify Account Number",
+        "requestBody": {
+          "description": "Verify account number details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyAccountNumberRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Transfer successfully initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Banks": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates if the operation was successful"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "banks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique identifier for the bank"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "The bank code"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the bank"
+                    },
+                    "isMobileVerified": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Indicates if the mobile number is verified for the bank"
+                    },
+                    "branches": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Branch details of the bank"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          }
+        }
+      },    
+      "Balance": {
+        "required": [
+          "status",
+          "statusCode",
+          "data",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "Indicates if the request was successful",
+            "type": "boolean",
+            "example": true
+          },
+          "statusCode": {
+            "description": "HTTP status code of the response",
+            "type": "integer",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "balance": {
+                "description": "Current balance of the account",
+                "type": "integer",
+                "example": 28893020
+              }
+            }
+          },
+          "message": {
+            "description": "Detailed message about the request outcome",
+            "type": "string",
+            "example": "Balance fetched successfully"
+          }
+        }
+      },
+      "InitializeTopUpRequest": {
+        "type": "object",
+        "required": [
+          "paymentMethod",
+          "amount",
+          "transactionPin"
+        ],
+        "properties": {
+          "paymentMethod": {
+            "type": "string",
+            "description": "The payment method"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The amount to transfer"
+          },
+          "transactionPin": {
+            "type": "string",
+            "description": "User's transaction PIN"
+          }
+        }
+      },
+      "TransferRequest": {
+        "type": "object",
+        "required": [
+          "amount",
+          "comment",
+          "accountNumber",
+          "bankCode",
+          "transactionPin",
+          "subUserUniqueIdentity"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "The amount to transfer"
+          },
+          "comment": {
+            "type": "string",
+            "description": "A comment for the transaction"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Recipient's account number"
+          },
+          "bankCode": {
+            "type": "string",
+            "description": "The bank code of the recipient bank"
+          },
+          "transactionPin": {
+            "type": "string",
+            "description": "User's transaction PIN"
+          },
+          "subUserUniqueIdentity": {
+            "type": "string",
+            "description": "Unique identity of the sub-user initiating the transfer"
+          }
+        }
+      },
+      "TransferResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the transfer request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed message about the transfer outcome"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier for the transaction"
+          }
+        }
+      },
+      "VerifyAccountNumberRequest": {
+        "type": "object",
+        "required": [
+          "accountNumber",
+          "bankCode"
+        ],
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "description": "Recipient's account or phone number"
+          },
+          "bankCode": {
+            "type": "string",
+            "description": "Recipient's bank code"
+          }
+        }
+      },
+      "VerifyIntraAccountNumberRequest": {
+        "type": "object",
+        "required": [
+          "accountNumberOrPhone"
+        ],
+        "properties": {
+          "accountNumberOrPhone": {
+            "type": "string",
+            "description": "Recipient's account or phone number"
+          }
+        }
+      },
+      "VerifyIntraAccountNumberResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates if the transfer was successful"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "accountNumber": {
+                "type": "string",
+                "description": "The destination account number"
+              },
+              "accountName": {
+                "type": "string",
+                "description": "The name associated with the account number"
+              },
+              "bankName": {
+                "type": "string",
+                "description": "Name of the bank where the account is held"
+              },
+              "bankCode": {
+                "type": "string",
+                "description": "The bank's unique identification code"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "description": "The phone number associated with the account"
+              },
+              "bank": {
+                "type": "string",
+                "description": "Bank name for the transfer"
+              },
+              "keleUserIdentify": {
+                "type": "string",
+                "description": "Unique identifier for the Kele user"
+              }
+            },
+            "required": [
+              "accountNumber",
+              "accountName",
+              "bankName",
+              "bankCode",
+              "phoneNumber",
+              "keleUserIdentify"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message describing the result of the operation"
+          }
+        },
+        "required": ["status", "statusCode", "data", "message"]
+      },
+      "IntraTransferRequest": {
+        "type": "object",
+        "required": [
+          "accountNumberOrPhone",
+          "amount",
+          "transactionPin"
+        ],
+        "properties": {
+          "accountNumberOrPhone": {
+            "type": "string",
+            "description": "Recipient's account or phone number"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The amount to transfer"
+          },
+          "transactionPin": {
+            "type": "string",
+            "description": "User's transaction PIN"
+          }
+        }
+      },
+      "IntraTransferResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates if the request was successful"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "integer",
+                "description": "The amount transferred"
+              },
+              "debitReference": {
+                "type": "string",
+                "description": "Reference for the debit transaction"
+              },
+              "creditReference": {
+                "type": "string",
+                "description": "Reference for the credit transaction"
+              },
+              "customerReference": {
+                "type": "string",
+                "description": "Reference provided by the customer, if any"
+              }
+            },
+            "required": [
+              "amount",
+              "debitReference",
+              "creditReference"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message describing the result of the operation"
+          }
+        },
+        "required": ["status", "statusCode", "data", "message"]
+      },    
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
