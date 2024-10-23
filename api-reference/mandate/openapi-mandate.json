@@ -1,0 +1,994 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Kele API",
+      "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+      "license": {
+        "name": "MIT"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://corebanking-staging.boldmfb.com/api"
+      }
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "paths": {
+      "/mandates/debit": {
+        "post": {
+          "description": "Initiate Debit",
+          "requestBody": {
+            "description": "Initiate a debit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebitRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Debit successfully initiated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DebitResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/mandates/debit?page={number}": {
+        "get": {
+          "description": "List Debit",
+          "parameters": [
+            {
+              "name": "number",
+              "in": "path",
+              "description": "Page number",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Debit successfully initiated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ListDebitResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/mandates/debit/{reference}": {
+        "get": {
+          "description": "Debit Status",
+          "parameters": [
+            {
+              "name": "reference",
+              "in": "path",
+              "description": "Reference of debit",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Debit successfully initiated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DebitStatusResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/mandates": {
+        "post": {
+          "description": "Create Mandate",
+          "requestBody": {
+            "description": "Create and initiate a mandate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMandateRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Debit successfully initiated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateMandateResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/mandates?page={number}": {
+        "get": {
+          "description": "List Mandate",
+          "parameters": [
+            {
+              "name": "number",
+              "in": "path",
+              "description": "Page number",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Debit successfully initiated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ListMandateResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/mandates/{reference}": {
+        "get": {
+          "description": "Get Mandate",
+          "parameters": [
+            {
+              "name": "reference",
+              "in": "path",
+              "description": "Reference of debit",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Debit successfully initiated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetMandateResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "DebitRequest": {
+            "type": "object",
+            "required": [
+              "mandateReference",
+              "reference",
+              "amount",
+              "narration"
+            ],
+            "properties": {
+              "mandateReference": {
+                "type": "string",
+                "description": "Unique identifier for the mandate"
+              },
+              "reference": {
+                "type": "string",
+                "description": "Unique reference for this transaction"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Amount to be debited",
+                "format": "float"
+              },
+              "narration": {
+                "type": "string",
+                "description": "Narration for the debit transaction"
+              }
+            }
+        },   
+        "DebitResponse": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "boolean",
+                "description": "Indicates if the request was successful"
+              },
+              "statusCode": {
+                "type": "integer",
+                "format": "int32",
+                "description": "HTTP status code"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Current status of the debit mandate"
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Amount debited"
+                  },
+                  "reference": {
+                    "type": "string",
+                    "description": "Reference for this transaction"
+                  },
+                  "mandate_reference": {
+                    "type": "string",
+                    "description": "Mandate reference used for the debit"
+                  },
+                  "customer_reference": {
+                    "type": "string",
+                    "description": "Customer's reference identifier"
+                  },
+                  "narration": {
+                    "type": "string",
+                    "description": "Narration of the transaction"
+                  },
+                  "remark": {
+                    "type": "string",
+                    "description": "Remarks regarding the transaction"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of when the debit was initiated"
+                  }
+                }
+              },
+              "message": {
+                "type": "string",
+                "description": "Response message from the API"
+              }
+            }
+        },  
+        "ListDebitResponse": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "boolean",
+                "description": "Indicates if the request was successful"
+              },
+              "statusCode": {
+                "type": "integer",
+                "format": "int32",
+                "description": "HTTP status code"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "current_page": {
+                    "type": "integer",
+                    "description": "The current page number"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "description": "Current status of the debit mandate"
+                        },
+                        "amount": {
+                          "type": "string",
+                          "description": "Amount debited"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "description": "Reference for this transaction"
+                        },
+                        "mandate_reference": {
+                          "type": "string",
+                          "description": "Mandate reference used for the debit"
+                        },
+                        "customer_reference": {
+                          "type": "string",
+                          "description": "Customer's reference identifier"
+                        },
+                        "narration": {
+                          "type": "string",
+                          "description": "Narration of the transaction"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "description": "Remarks regarding the transaction"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of when the debit was initiated"
+                        }
+                      }
+                    }
+                  },
+                  "first_page_url": {
+                    "type": "string",
+                    "description": "URL for the first page"
+                  },
+                  "from": {
+                    "type": "integer",
+                    "description": "Starting item number on this page"
+                  },
+                  "last_page": {
+                    "type": "integer",
+                    "description": "The last page number"
+                  },
+                  "last_page_url": {
+                    "type": "string",
+                    "description": "URL for the last page"
+                  },
+                  "links": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "description": "URL for navigation (null if not applicable)"
+                        },
+                        "label": {
+                          "type": "string",
+                          "description": "Label for the navigation link"
+                        },
+                        "active": {
+                          "type": "boolean",
+                          "description": "Indicates if the link is currently active"
+                        }
+                      }
+                    }
+                  },
+                  "next_page_url": {
+                    "type": "string",
+                    "description": "URL for the next page"
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "Base URL path for pagination"
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "description": "Number of items per page"
+                  },
+                  "prev_page_url": {
+                    "type": "string",
+                    "description": "URL for the previous page"
+                  },
+                  "to": {
+                    "type": "integer",
+                    "description": "Ending item number on this page"
+                  },
+                  "total": {
+                    "type": "integer",
+                    "description": "Total number of items available"
+                  }
+                }
+              },
+              "message": {
+                "type": "string",
+                "description": "Response message from the API"
+              }
+            }
+        },     
+        "DebitStatusResponse": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "boolean",
+                "description": "Indicates if the request was successful"
+              },
+              "statusCode": {
+                "type": "integer",
+                "format": "int32",
+                "description": "HTTP status code"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Current status of the debit mandate"
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Amount debited"
+                  },
+                  "reference": {
+                    "type": "string",
+                    "description": "Reference for this transaction"
+                  },
+                  "mandate_reference": {
+                    "type": "string",
+                    "description": "Mandate reference used for the debit"
+                  },
+                  "customer_reference": {
+                    "type": "string",
+                    "description": "Customer's reference identifier"
+                  },
+                  "narration": {
+                    "type": "string",
+                    "description": "Narration of the transaction"
+                  },
+                  "remark": {
+                    "type": "string",
+                    "description": "Remarks regarding the transaction"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of when the debit was initiated"
+                  }
+                }
+              },
+              "message": {
+                "type": "string",
+                "description": "Response message from the API"
+              }
+            }
+        },    
+        "CreateMandateRequest": {
+            "type": "object",
+            "required": [
+              "reference",
+              "startDate",
+              "endDate",
+              "amount",
+              "description",
+              "transactionPin",
+              "customer",
+              "autoWithdrawal",
+              "circle",
+              "singleWithdrawalAmount"
+            ],
+            "properties": {
+              "reference": {
+                "type": "string",
+                "description": "Unique reference for the mandate"
+              },
+              "startDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Start date of the mandate"
+              },
+              "endDate": {
+                "type": "string",
+                "format": "date",
+                "description": "End date of the mandate"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Total amount for the mandate"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the mandate"
+              },
+              "transactionPin": {
+                "type": "string",
+                "description": "Customer's transaction PIN"
+              },
+              "customer": {
+                "type": "object",
+                "required": [
+                  "bankCode",
+                  "accountNumber",
+                  "address",
+                  "email",
+                  "phoneNumber"
+                ],
+                "properties": {
+                  "bankCode": {
+                    "type": "string",
+                    "description": "Bank code of the customer’s bank"
+                  },
+                  "accountNumber": {
+                    "type": "string",
+                    "description": "Customer’s bank account number"
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Customer’s address"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Customer’s email address"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "description": "Customer’s phone number"
+                  }
+                }
+              },
+              "autoWithdrawal": {
+                "type": "boolean",
+                "description": "Whether auto-withdrawal is enabled for the mandate"
+              },
+              "circle": {
+                "type": "string",
+                "enum": ["daily", "weekly", "monthly"],
+                "description": "The withdrawal frequency for the mandate"
+              },
+              "singleWithdrawalAmount": {
+                "type": "number",
+                "description": "Amount to withdraw per cycle"
+              }
+            }
+        },                                  
+        "CreateMandateResponse": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "boolean",
+                "description": "Indicates if the request was successful"
+              },
+              "statusCode": {
+                "type": "integer",
+                "format": "int32",
+                "description": "HTTP status code"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "circle": {
+                    "type": "string",
+                    "description": "The withdrawal frequency for the mandate"
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Total amount for the mandate"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End date of the mandate"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date of the mandate"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the mandate"
+                  },
+                  "reference": {
+                    "type": "string",
+                    "description": "Unique reference for the mandate"
+                  },
+                  "bank_code": {
+                    "type": "string",
+                    "description": "Customer’s bank code"
+                  },
+                  "bank_name": {
+                    "type": "string",
+                    "description": "Name of the customer’s bank"
+                  },
+                  "account_name": {
+                    "type": "string",
+                    "description": "Customer’s account name"
+                  },
+                  "account_number": {
+                    "type": "string",
+                    "description": "Customer’s bank account number"
+                  },
+                  "is_auto_withdrawal": {
+                    "type": "boolean",
+                    "description": "Whether auto-withdrawal is enabled for the mandate"
+                  },
+                  "customer_reference": {
+                    "type": "string",
+                    "description": "Customer's reference"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Customer’s phone number"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Customer’s email address"
+                  },
+                  "authorization": {
+                    "type": "object",
+                    "properties": {
+                      "account_number": {
+                        "type": "string",
+                        "description": "Account number used for mandate authorization"
+                      },
+                      "bank_name": {
+                        "type": "string",
+                        "description": "Bank name used for mandate authorization"
+                      },
+                      "account_name": {
+                        "type": "string",
+                        "description": "Account name used for mandate authorization"
+                      },
+                      "amount": {
+                        "type": "string",
+                        "description": "Authorization amount for the mandate"
+                      }
+                    }
+                  },
+                  "remark": {
+                    "type": "string",
+                    "description": "Additional remarks or instructions"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the mandate was created"
+                  }
+                }
+              },
+              "message": {
+                "type": "string",
+                "description": "Response message from the API"
+              }
+            }
+        },        
+        "ListMandateResponse": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "boolean"
+              },
+              "statusCode": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "current_page": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "circle": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "string"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "reference": {
+                          "type": "string"
+                        },
+                        "bank_code": {
+                          "type": "string"
+                        },
+                        "bank_name": {
+                          "type": "string"
+                        },
+                        "account_name": {
+                          "type": "string"
+                        },
+                        "account_number": {
+                          "type": "string"
+                        },
+                        "is_auto_withdrawal": {
+                          "type": "boolean"
+                        },
+                        "customer_reference": {
+                          "type": "string"
+                        },
+                        "phone_number": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "authorization": {
+                          "type": "object",
+                          "properties": {
+                            "account_number": {
+                              "type": "string"
+                            },
+                            "bank_name": {
+                              "type": "string"
+                            },
+                            "account_name": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "remark": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  },
+                  "first_page_url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "from": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "last_page": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "last_page_url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "links": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "active": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "next_page_url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "path": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "prev_page_url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "to": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "total": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+        },            
+        "GetMandateResponse": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "boolean"
+              },
+              "statusCode": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "circle": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "string"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  },
+                  "bank_code": {
+                    "type": "string"
+                  },
+                  "bank_name": {
+                    "type": "string"
+                  },
+                  "account_name": {
+                    "type": "string"
+                  },
+                  "account_number": {
+                    "type": "string"
+                  },
+                  "is_auto_withdrawal": {
+                    "type": "boolean"
+                  },
+                  "customer_reference": {
+                    "type": "string"
+                  },
+                  "phone_number": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "authorization": {
+                    "type": "string",
+                    "properties": {
+                      "account_number": {
+                        "type": "string"
+                      },
+                      "bank_name": {
+                        "type": "string"
+                      },
+                      "account_name": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "remark": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+        },           
+        "Error": {
+          "required": [
+            "error",
+            "message"
+          ],
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    }
+  }

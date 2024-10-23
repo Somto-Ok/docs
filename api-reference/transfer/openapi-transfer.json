@@ -157,9 +157,9 @@
     },
     "/accounts/kele_to_kele_transfer": {
       "post": {
-        "description": "Initiates a Kele to Kele transfer",
+        "description": "Initiates an intra bank transfer",
         "requestBody": {
-          "description": "Kele to Kele transfer details",
+          "description": "Intra bank transfer details",
           "content": {
             "application/json": {
               "schema": {
@@ -195,9 +195,9 @@
     },
     "/accounts/verify_kele_account_number": {
       "post": {
-        "description": "Verifies a Kele account number",
+        "description": "Verifies an intra account number",
         "requestBody": {
-          "description": "Kele to Kele transfer details",
+          "description": "Intra account transfer details",
           "content": {
             "application/json": {
               "schema": {

@@ -18,12 +18,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@getkele.com"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://app.getkele.com/"
   },
   "tabs": [
     {
@@ -68,6 +68,17 @@
           "pages": [
             "api-reference/virtual-account/individual",
             "api-reference/virtual-account/corporate"
+          ]
+        },
+        {
+          "group": "Mandate",
+          "pages": [
+            "api-reference/mandate/debit",
+            "api-reference/mandate/list-debit",
+            "api-reference/mandate/debit-status",
+            "api-reference/mandate/create-mandate",
+            "api-reference/mandate/list-mandate",
+            "api-reference/mandate/get-mandate"
           ]
         }
       ]
