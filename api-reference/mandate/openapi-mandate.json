@@ -57,13 +57,13 @@
           }
         }
       },
-      "/mandates/debit?page={number}": {
+      "/mandates/debit?page=number": {
         "get": {
           "description": "List Debit",
           "parameters": [
             {
-              "name": "number",
-              "in": "path",
+              "name": "page",
+              "in": "query",
               "description": "Page number",
               "required": true,
               "schema": {
@@ -171,13 +171,13 @@
           }
         }
       },
-      "/mandates?page={number}": {
+      "/mandates?page=number": {
         "get": {
           "description": "List Mandate",
           "parameters": [
             {
-              "name": "number",
-              "in": "path",
+              "name": "page",
+              "in": "query",
               "description": "Page number",
               "required": true,
               "schema": {
@@ -526,7 +526,6 @@
               "endDate",
               "amount",
               "description",
-              "transactionPin",
               "customer",
               "autoWithdrawal",
               "circle",
@@ -554,10 +553,6 @@
               "description": {
                 "type": "string",
                 "description": "Description of the mandate"
-              },
-              "transactionPin": {
-                "type": "string",
-                "description": "Customer's transaction PIN"
               },
               "customer": {
                 "type": "object",

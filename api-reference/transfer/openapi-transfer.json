@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://stagingtwo.getkele.com/api/v1"
+      "url": "https://corebanking-staging.boldmfb.com/api"
     }
   ],
   "security": [
@@ -19,75 +19,15 @@
     }
   ],
   "paths": {
-    "/accounts/banks": {
-      "get": {
-        "description": "Returns all banks from the system",
-        "responses": {
-          "200": {
-            "description": "Banks response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Banks"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/accounts/balance": {
-      "get": {
-        "description": "Returns account balance from the system",
-        "responses": {
-          "200": {
-            "description": "Accounts response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Balance"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/accounts/initialize_topup": {
+    "/payout": {
       "post": {
-        "description": "Initializes a Top Up",
+        "description": "Individual Account",
         "requestBody": {
-          "description": "Top Up details",
+          "description": "Request an individual virtual account",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/InitializeTopUpRequest"
+                "$ref": "#/components/schemas/PayoutRequest"
               }
             }
           },
@@ -95,11 +35,11 @@
         },
         "responses": {
           "200": {
-            "description": "Top Up successfully initiated",
+            "description": "Individual corporate account successfully created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransferResponse"
+                  "$ref": "#/components/schemas/PayoutResponse"
                 }
               }
             }
@@ -116,16 +56,16 @@
           }
         }
       }
-    },
-    "/accounts/initiate_inter_bank_transfer": {
+    },   
+    "/payout/bulk": {
       "post": {
-        "description": "Initiates an interbank transfer",
+        "description": "Individual Account",
         "requestBody": {
-          "description": "Interbank transfer details",
+          "description": "Request an individual virtual account",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransferRequest"
+                "$ref": "#/components/schemas/BulkPayoutRequest"
               }
             }
           },
@@ -133,87 +73,11 @@
         },
         "responses": {
           "200": {
-            "description": "Transfer successfully initiated",
+            "description": "Individual corporate account successfully created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransferResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request, invalid parameters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/accounts/kele_to_kele_transfer": {
-      "post": {
-        "description": "Initiates an intra bank transfer",
-        "requestBody": {
-          "description": "Intra bank transfer details",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IntraTransferRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Transfer successfully initiated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TransferResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request, invalid parameters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/accounts/verify_kele_account_number": {
-      "post": {
-        "description": "Verifies an intra account number",
-        "requestBody": {
-          "description": "Intra account transfer details",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerifyIntraAccountNumberRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Transfer successfully initiated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VerifyIntraAccountNumberResponse"
+                  "$ref": "#/components/schemas/BulkPayoutResponse"
                 }
               }
             }
@@ -231,15 +95,15 @@
         }
       }
     }, 
-    "/accounts/verify_account_number": {
+    "/payout/resolve": {
       "post": {
-        "description": "Verify Account Number",
+        "description": "Individual Account",
         "requestBody": {
-          "description": "Verify account number details",
+          "description": "Request an individual virtual account",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VerifyAccountNumberRequest"
+                "$ref": "#/components/schemas/ResolveRequest"
               }
             }
           },
@@ -247,11 +111,253 @@
         },
         "responses": {
           "200": {
-            "description": "Transfer successfully initiated",
+            "description": "Individual corporate account successfully created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransferResponse"
+                  "$ref": "#/components/schemas/ResolveResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/intra-payout": {
+      "post": {
+        "description": "Individual Account",
+        "requestBody": {
+          "description": "Request an individual virtual account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntraPayoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Individual corporate account successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payout/intra-bulk": {
+      "post": {
+        "description": "Individual Account",
+        "requestBody": {
+          "description": "Request an individual virtual account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntraBulkPayoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Individual corporate account successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payout/intra-resolve": {
+      "post": {
+        "description": "Individual Account",
+        "requestBody": {
+          "description": "Request an individual virtual account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntraResolveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Individual corporate account successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payout/recurring": {
+      "post": {
+        "description": "Create a recurring payout",
+        "requestBody": {
+          "description": "Request to create a recurring payout",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRecurringRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurring payout successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRecurringResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get details of recurring payouts",
+        "responses": {
+          "200": {
+            "description": "Recurring payout details successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRecurringResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payout/recurring/2": {
+      "put": {
+        "description": "Individual Account",
+        "requestBody": {
+          "description": "Request an individual virtual account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Success"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Individual corporate account successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payout/banks": {
+      "get": {
+        "description": "Individual Account",
+        "responses": {
+          "200": {
+            "description": "Individual corporate account successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListBankResponse"
                 }
               }
             }
@@ -272,324 +378,633 @@
   },
   "components": {
     "schemas": {
-      "Banks": {
+      "PayoutRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sender": {
+            "type": "string"
+          },
+          "accountName": {
+            "type": "string"
+          },
+          "accountNumber": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+          },
+          "bankCode": {
+            "type": "string",
+            "pattern": "^[0-9]{3}$"
+          }
+        },
+        "required": ["amount", "sender", "accountName", "accountNumber", "bankCode"]
+      },  
+      "PayoutResponse": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean",
-            "description": "Indicates if the operation was successful"
+            "type": "boolean"
           },
           "statusCode": {
             "type": "integer",
-            "description": "HTTP status code of the response"
+            "format": "int32"
           },
           "data": {
             "type": "object",
             "properties": {
-              "banks": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "description": "Unique identifier for the bank"
-                    },
-                    "code": {
-                      "type": "string",
-                      "description": "The bank code"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the bank"
-                    },
-                    "isMobileVerified": {
-                      "type": "string",
-                      "nullable": true,
-                      "description": "Indicates if the mobile number is verified for the bank"
-                    },
-                    "branches": {
-                      "type": "string",
-                      "nullable": true,
-                      "description": "Branch details of the bank"
-                    }
-                  }
+              "uniqueIdentity": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "userIdentity": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "productType": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "string"
+              },
+              "netAmount": {
+                "type": "string"
+              },
+              "fee": {
+                "type": "string"
+              },
+              "commission": {
+                "type": "string"
+              },
+              "transactionAccount": {
+                "type": "string"
+              },
+              "transactionStatusCode": {
+                "type": "string"
+              },
+              "transactionStatus": {
+                "type": "string"
+              },
+              "transactionReference": {
+                "type": "string"
+              },
+              "beneficiaryName": {
+                "type": "string"
+              },
+              "beneficiaryNumber": {
+                "type": "string",
+                "pattern": "^[0-9]{10}$"
+              },
+              "beneficiaryPlatform": {
+                "type": "string"
+              },
+              "senderName": {
+                "type": "string"
+              },
+              "senderNumber": {
+                "type": "string"
+              },
+              "senderPlatform": {
+                "type": "string"
+              },
+              "transactionType": {
+                "type": "string"
+              },
+              "comment": {
+                "type": "string"
+              },
+              "sessionId": {
+                "type": "string"
+              }
+            }
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "BulkPayoutRequest": {
+        "type": "object",
+        "properties": {
+          "payouts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "integer"
+                },
+                "sender": {
+                  "type": "string"
+                },
+                "accountName": {
+                  "type": "string"
+                },
+                "accountNumber": {
+                  "type": "string",
+                  "pattern": "^[0-9]{10}$"
+                },
+                "bankCode": {
+                  "type": "string",
+                  "pattern": "^[0-9]{3}$"
                 }
-              }
+              },
+              "required": [
+                "amount",
+                "sender",
+                "accountName",
+                "accountNumber",
+                "bankCode"
+              ]
             }
-          },
-          "message": {
-            "type": "string",
-            "description": "Response message"
           }
-        }
-      },    
-      "Balance": {
-        "required": [
-          "status",
-          "statusCode",
-          "data",
-          "message"
-        ],
+        },
+        "required": ["payouts"]
+      },  
+      "BulkPayoutResponse": {
         "type": "object",
         "properties": {
           "status": {
-            "description": "Indicates if the request was successful",
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "statusCode": {
-            "description": "HTTP status code of the response",
             "type": "integer",
-            "example": 200
+            "format": "int32"
           },
           "data": {
             "type": "object",
             "properties": {
-              "balance": {
-                "description": "Current balance of the account",
-                "type": "integer",
-                "example": 28893020
+              "user_id": {
+                "type": "integer"
+              },
+              "total_count": {
+                "type": "integer"
+              },
+              "type": {
+                "type": "string"
+              },
+              "wallet_id": {
+                "type": "integer"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "id": {
+                "type": "integer"
+              },
+              "total_processed": {
+                "type": "integer"
+              },
+              "description": {
+                "type": "string"
               }
             }
           },
           "message": {
-            "description": "Detailed message about the request outcome",
-            "type": "string",
-            "example": "Balance fetched successfully"
+            "type": "string"
           }
         }
       },
-      "InitializeTopUpRequest": {
+      "ResolveRequest": {
         "type": "object",
-        "required": [
-          "paymentMethod",
-          "amount",
-          "transactionPin"
-        ],
         "properties": {
-          "paymentMethod": {
+          "bankCode": {
             "type": "string",
-            "description": "The payment method"
-          },
-          "amount": {
-            "type": "number",
-            "description": "The amount to transfer"
-          },
-          "transactionPin": {
-            "type": "string",
-            "description": "User's transaction PIN"
-          }
-        }
-      },
-      "TransferRequest": {
-        "type": "object",
-        "required": [
-          "amount",
-          "comment",
-          "accountNumber",
-          "bankCode",
-          "transactionPin",
-          "subUserUniqueIdentity"
-        ],
-        "properties": {
-          "amount": {
-            "type": "number",
-            "description": "The amount to transfer"
-          },
-          "comment": {
-            "type": "string",
-            "description": "A comment for the transaction"
+            "pattern": "^[0-9]{3}$",
+            "example": "033"
           },
           "accountNumber": {
             "type": "string",
-            "description": "Recipient's account number"
-          },
-          "bankCode": {
-            "type": "string",
-            "description": "The bank code of the recipient bank"
-          },
-          "transactionPin": {
-            "type": "string",
-            "description": "User's transaction PIN"
-          },
-          "subUserUniqueIdentity": {
-            "type": "string",
-            "description": "Unique identity of the sub-user initiating the transfer"
+            "pattern": "^[0-9]{10}$",
+            "example": "2130703419"
           }
-        }
-      },
-      "TransferResponse": {
+        },
+        "required": ["bankCode", "accountNumber"]
+      },  
+      "ResolveResponse": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "string",
-            "description": "Status of the transfer request"
-          },
-          "message": {
-            "type": "string",
-            "description": "Detailed message about the transfer outcome"
-          },
-          "transactionId": {
-            "type": "string",
-            "description": "Unique identifier for the transaction"
-          }
-        }
-      },
-      "VerifyAccountNumberRequest": {
-        "type": "object",
-        "required": [
-          "accountNumber",
-          "bankCode"
-        ],
-        "properties": {
-          "accountNumber": {
-            "type": "string",
-            "description": "Recipient's account or phone number"
-          },
-          "bankCode": {
-            "type": "string",
-            "description": "Recipient's bank code"
-          }
-        }
-      },
-      "VerifyIntraAccountNumberRequest": {
-        "type": "object",
-        "required": [
-          "accountNumberOrPhone"
-        ],
-        "properties": {
-          "accountNumberOrPhone": {
-            "type": "string",
-            "description": "Recipient's account or phone number"
-          }
-        }
-      },
-      "VerifyIntraAccountNumberResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "boolean",
-            "description": "Indicates if the transfer was successful"
+            "type": "boolean"
           },
           "statusCode": {
             "type": "integer",
-            "description": "HTTP status code of the response"
+            "format": "int32"
           },
           "data": {
             "type": "object",
             "properties": {
               "accountNumber": {
                 "type": "string",
-                "description": "The destination account number"
+                "example": "1010101010"
               },
               "accountName": {
                 "type": "string",
-                "description": "The name associated with the account number"
+                "example": "Customer Name"
               },
               "bankName": {
                 "type": "string",
-                "description": "Name of the bank where the account is held"
+                "example": "GTBank Plc"
               },
               "bankCode": {
                 "type": "string",
-                "description": "The bank's unique identification code"
-              },
-              "phoneNumber": {
-                "type": "string",
-                "description": "The phone number associated with the account"
-              },
-              "bank": {
-                "type": "string",
-                "description": "Bank name for the transfer"
-              },
-              "keleUserIdentify": {
-                "type": "string",
-                "description": "Unique identifier for the Kele user"
+                "example": "058"
               }
-            },
-            "required": [
-              "accountNumber",
-              "accountName",
-              "bankName",
-              "bankCode",
-              "phoneNumber",
-              "keleUserIdentify"
-            ]
+            }
           },
           "message": {
             "type": "string",
-            "description": "Response message describing the result of the operation"
-          }
-        },
-        "required": ["status", "statusCode", "data", "message"]
-      },
-      "IntraTransferRequest": {
-        "type": "object",
-        "required": [
-          "accountNumberOrPhone",
-          "amount",
-          "transactionPin"
-        ],
-        "properties": {
-          "accountNumberOrPhone": {
-            "type": "string",
-            "description": "Recipient's account or phone number"
-          },
-          "amount": {
-            "type": "number",
-            "description": "The amount to transfer"
-          },
-          "transactionPin": {
-            "type": "string",
-            "description": "User's transaction PIN"
+            "example": "Action was Successful"
           }
         }
+      },    
+      "IntraPayoutRequest": {
+        "type": "object",
+        "properties": {
+          "walletNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "payouts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "accountOrPhoneNumber": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "integer"
+                }
+              },
+              "required": ["accountOrPhoneNumber", "amount"]
+            }
+          }
+        },
+        "required": ["payouts"]
       },
-      "IntraTransferResponse": {
+      "IntraBulkPayoutRequest": {
+        "type": "object",
+        "properties": {
+          "accountOrPhoneNumber": {
+            "type": "string"
+          }
+        },
+        "required": ["accountOrPhoneNumber"]
+      },   
+      "IntraResolveRequest": {
+        "type": "object",
+        "properties": {
+          "accountOrPhoneNumber": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer"
+          },
+          "walletNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["accountOrPhoneNumber", "amount"]
+      },
+      "CreateRecurringRequest": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "circle": {
+            "type": "string",
+            "enum": ["daily", "weekly", "monthly"]
+          },
+          "destination": {
+            "type": "string",
+            "enum": ["bank_account", "wallet"]
+          },
+          "bankCode": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "accountOrPhoneNumber": {
+            "type": "string"
+          },
+          "isTotal": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "startDate", 
+          "circle", 
+          "destination", 
+          "bankCode", 
+          "amount", 
+          "accountOrPhoneNumber", 
+          "isTotal"
+        ]
+      },
+      "CreateRecurringResponse": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean",
-            "description": "Indicates if the request was successful"
+            "type": "boolean"
           },
           "statusCode": {
             "type": "integer",
-            "description": "HTTP status code of the response"
+            "format": "int32"
           },
           "data": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "user_id": {
+                "type": "integer"
+              },
+              "wallet_id": {
+                "type": "integer"
+              },
               "amount": {
-                "type": "integer",
-                "description": "The amount transferred"
-              },
-              "debitReference": {
                 "type": "string",
-                "description": "Reference for the debit transaction"
+                "format": "decimal"
               },
-              "creditReference": {
+              "start_date": {
                 "type": "string",
-                "description": "Reference for the credit transaction"
+                "format": "date"
               },
-              "customerReference": {
+              "end_date": {
                 "type": "string",
-                "description": "Reference provided by the customer, if any"
+                "format": "date"
+              },
+              "last_settlement_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "next_settlement_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "circle": {
+                "type": "string"
+              },
+              "destination": {
+                "type": "string"
+              },
+              "product_type": {
+                "type": "string"
+              },
+              "bank_code": {
+                "type": "string"
+              },
+              "bank_name": {
+                "type": "string"
+              },
+              "account_name": {
+                "type": "string"
+              },
+              "account_phone_number": {
+                "type": "string"
+              },
+              "is_active": {
+                "type": "boolean"
+              },
+              "is_total": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time"
               }
-            },
-            "required": [
-              "amount",
-              "debitReference",
-              "creditReference"
-            ]
+            }
           },
           "message": {
-            "type": "string",
-            "description": "Response message describing the result of the operation"
+            "type": "string"
+          }
+        }
+      },            
+      "GetRecurringResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "current_page": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "data": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "wallet_id": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "amount": {
+                      "type": "string"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "last_settlement_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "next_settlement_date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "circle": {
+                      "type": "string"
+                    },
+                    "destination": {
+                      "type": "string"
+                    },
+                    "product_type": {
+                      "type": "string"
+                    },
+                    "bank_code": {
+                      "type": "string"
+                    },
+                    "bank_name": {
+                      "type": "string"
+                    },
+                    "account_name": {
+                      "type": "string"
+                    },
+                    "account_phone_number": {
+                      "type": "string"
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "is_total": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              },
+              "first_page_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "from": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "last_page": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "last_page_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "next_page_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "path": {
+                "type": "string",
+                "format": "uri"
+              },
+              "per_page": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "prev_page_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "to": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "total": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ListBankResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "name"]
+            }
+          },
+          "message": {
+            "type": "string"
           }
         },
         "required": ["status", "statusCode", "data", "message"]
-      },    
+      },            
+      "Success" : {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["status", "statusCode"]
+      },               
       "Error": {
         "required": [
           "error",

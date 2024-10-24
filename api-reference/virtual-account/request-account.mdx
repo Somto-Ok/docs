@@ -1,0 +1,16 @@
+---
+title: 'Request Account'
+openapi: 'openapi-va POST /payin/virtual-accounts/requests'
+---
+
+This API allows you to request a virtual account for either an individual or a corporate entity. The request body structure is determined by the `accountType` field.
+
+### Request Body
+
+Based on the `accountType`, the body should conform to one of the following schemas:
+
+- For an **individual** account:
+  - `accountType`: `"individual"`
+
+- For a **corporate** account:
+  - `accountType`: `"corporate"`

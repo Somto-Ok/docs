@@ -21,13 +21,27 @@
     "paths": {
       "/payin/virtual-accounts/requests": {
         "post": {
-          "description": "Individual Account",
+          "description": "Request a virtual account",
           "requestBody": {
-            "description": "Request an individual virtual account",
+            "description": "Request an individual or corporate virtual account",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IndividualAccountRequest"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/IndividualAccountRequest"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CorporateAccountRequest"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "accountType",
+                    "mapping": {
+                      "individual": "#/components/schemas/IndividualAccountRequest",
+                      "corporate": "#/components/schemas/CorporateAccountRequest"
+                    }
+                  }
                 }
               }
             },
@@ -35,45 +49,7 @@
           },
           "responses": {
             "200": {
-              "description": "Individual corporate account successfully created",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AccountResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request, invalid parameters",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/payin/virtual-accounts/requests": {
-        "post": {
-          "description": "Corporate Account",
-          "requestBody": {
-            "description": "Request a corporate virtual account",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CorporateAccountRequest"
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "Corporate virtual account successfully created",
+              "description": "Virtual account successfully created",
               "content": {
                 "application/json": {
                   "schema": {
@@ -99,8 +75,8 @@
     "components": {
       "schemas": {
         "IndividualAccountRequest": {
-            "type": "object",
-            "required": [
+          "type": "object",
+          "required": [
             "bvn",
             "firstName",
             "lastName",
@@ -108,179 +84,170 @@
             "accountNumber",
             "bvnName",
             "walletNo"
-            ],
-            "properties": {
+          ],
+          "properties": {
             "bvn": {
-                "type": "string",
-                "description": "Bank Verification Number of the individual"
+              "type": "string",
+              "description": "Bank Verification Number of the individual"
             },
             "firstName": {
-                "type": "string",
-                "description": "First name of the individual"
+              "type": "string",
+              "description": "First name of the individual"
             },
             "lastName": {
-                "type": "string",
-                "description": "Last name of the individual"
+              "type": "string",
+              "description": "Last name of the individual"
             },
             "accountType": {
-                "type": "string",
-                "enum": ["corporate", "personal"],
-                "description": "Type of account, either 'corporate' or 'personal'"
-            },
-            "businessName": {
-                "type": "string",
-                "description": "Name of the business (only applicable if accountType is 'corporate')"
+              "type": "string",
+              "enum": ["individual"],
+              "description": "Type of account, only for individual accounts"
             },
             "accountNumber": {
-                "type": "string",
-                "description": "Bank account number of the individual"
+              "type": "string",
+              "description": "Bank account number of the individual"
             },
             "dateOfBirth": {
-                "type": "string",
-                "format": "date",
-                "description": "Date of birth of the individual in DD-MM-YYYY format"
+              "type": "string",
+              "format": "date",
+              "description": "Date of birth of the individual in DD-MM-YYYY format"
             },
             "bvnName": {
-                "type": "string",
-                "description": "Full name as associated with the BVN"
+              "type": "string",
+              "description": "Full name as associated with the BVN"
             },
             "walletNo": {
-                "type": "string",
-                "description": "Wallet number linked to the account"
+              "type": "string",
+              "description": "Wallet number linked to the account"
             }
-            }
-        },   
+          }
+        },
         "CorporateAccountRequest": {
-            "type": "object",
-            "required": [
+          "type": "object",
+          "required": [
             "accountType",
             "dateOfBirth",
             "bvn",
             "bvnName",
             "businessName",
             "channel"
-            ],
-            "properties": {
+          ],
+          "properties": {
             "accountType": {
-                "type": "string",
-                "description": "Type of account, e.g., 'corporate'",
-                "example": "corporate"
+              "type": "string",
+              "enum": ["corporate"],
+              "description": "Type of account, only 'corporate' for corporate accounts"
             },
             "dateOfBirth": {
-                "type": "string",
-                "description": "Date of birth in 'DD-MM-YYYY' format",
-                "example": "10-12-1992"
+              "type": "string",
+              "description": "Date of incorporation in 'DD-MM-YYYY' format"
             },
             "bvn": {
-                "type": "string",
-                "description": "Bank Verification Number (BVN), 10-digit number",
-                "example": "{{randomTenDigitNumber}}1"
+              "type": "string",
+              "description": "Bank Verification Number (BVN), 10-digit number"
             },
             "bvnName": {
-                "type": "string",
-                "description": "Name linked to the BVN",
-                "example": "{{$randomFullName}}"
+              "type": "string",
+              "description": "Name linked to the BVN"
             },
             "businessName": {
-                "type": "string",
-                "description": "Name of the business",
-                "example": "{{$randomBankAccountName}}"
+              "type": "string",
+              "description": "Name of the business"
             },
             "channel": {
-                "type": "string",
-                "description": "Channel through which the request is made",
-                "example": "globus"
+              "type": "string",
+              "description": "Channel through which the request is made"
             }
-            }
-        },   
+          }
+        },
         "AccountResponse": {
-            "type": "object",
-            "properties": {
+          "type": "object",
+          "properties": {
             "status": {
-                "type": "boolean",
-                "description": "Indicates if the request was successful"
+              "type": "boolean",
+              "description": "Indicates if the request was successful"
             },
             "statusCode": {
-                "type": "integer",
-                "description": "HTTP status code of the response"
+              "type": "integer",
+              "description": "HTTP status code of the response"
             },
             "data": {
-                "type": "object",
-                "properties": {
+              "type": "object",
+              "properties": {
                 "id": {
-                    "type": "integer",
-                    "description": "Unique identifier for the account"
+                  "type": "integer",
+                  "description": "Unique identifier for the account"
                 },
                 "user_id": {
-                    "type": "string",
-                    "description": "ID of the user associated with the account"
+                  "type": "string",
+                  "description": "ID of the user associated with the account"
                 },
                 "wallet_id": {
-                    "type": "integer",
-                    "description": "Wallet ID linked to the account"
+                  "type": "integer",
+                  "description": "Wallet ID linked to the account"
                 },
                 "account_type": {
-                    "type": "string",
-                    "enum": ["corporate", "personal"],
-                    "description": "Type of the account (corporate or personal)"
+                  "type": "string",
+                  "enum": ["corporate", "individual"],
+                  "description": "Type of the account (corporate or individual)"
                 },
                 "account_number": {
-                    "type": "string",
-                    "description": "Account number associated with the user"
+                  "type": "string",
+                  "description": "Account number associated with the user"
                 },
                 "account_name": {
-                    "type": "string",
-                    "description": "Name associated with the account"
+                  "type": "string",
+                  "description": "Name associated with the account"
                 },
                 "bank_name": {
-                    "type": "string",
-                    "description": "Name of the bank"
+                  "type": "string",
+                  "description": "Name of the bank"
                 },
                 "bank_code": {
-                    "type": "string",
-                    "description": "Bank's unique identification code"
+                  "type": "string",
+                  "description": "Bank's unique identification code"
                 },
                 "account_reference": {
-                    "type": "string",
-                    "description": "Reference for the account"
+                  "type": "string",
+                  "description": "Reference for the account"
                 },
                 "channel_reference": {
-                    "type": "string",
-                    "description": "Reference from the channel used for account creation"
+                  "type": "string",
+                  "description": "Reference from the channel used for account creation"
                 },
                 "channel": {
-                    "type": "string",
-                    "description": "Channel through which the account was created"
+                  "type": "string",
+                  "description": "Channel through which the account was created"
                 },
                 "status": {
-                    "type": "string",
-                    "enum": ["active", "inactive"],
-                    "description": "Current status of the account"
+                  "type": "string",
+                  "enum": ["active", "inactive"],
+                  "description": "Current status of the account"
                 },
                 "created_at": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "Timestamp when the account was created"
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the account was created"
                 },
                 "updated_at": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "Timestamp when the account was last updated"
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the account was last updated"
                 },
                 "is_permanent": {
-                    "type": "boolean",
-                    "description": "Indicates if the account is permanent"
+                  "type": "boolean",
+                  "description": "Indicates if the account is permanent"
                 },
                 "bvn": {
-                    "type": "string",
-                    "description": "Bank Verification Number of the user"
+                  "type": "string",
+                  "description": "Bank Verification Number of the user"
                 },
                 "bvn_name": {
-                    "type": "string",
-                    "description": "Name associated with the BVN"
+                  "type": "string",
+                  "description": "Name associated with the BVN"
                 }
-                },
-                "required": [
+              },
+              "required": [
                 "id",
                 "user_id",
                 "wallet_id",
@@ -298,21 +265,21 @@
                 "is_permanent",
                 "bvn",
                 "bvn_name"
-                ]
+              ]
             },
             "message": {
-                "type": "string",
-                "description": "Response message describing the result of the request"
+              "type": "string",
+              "description": "Response message describing the result of the request"
             }
-            },
-            "required": ["status", "statusCode", "data", "message"]
-        },                 
+          },
+          "required": ["status", "statusCode", "data", "message"]
+        },
         "Error": {
+          "type": "object",
           "required": [
             "error",
             "message"
           ],
-          "type": "object",
           "properties": {
             "error": {
               "type": "integer",

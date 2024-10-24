@@ -39,35 +39,41 @@
       ]
     },
     {
-      "group": "",
-      "pages": [
-        "api-reference/transfer/balance"
-      ]
-    },
-    {
       "group": "Disbursement",
       "pages": [
-        "api-reference/transfer/banks",
-        "api-reference/transfer/intra-bank-transfer",
-        "api-reference/transfer/verify-intra-accountnumber",
-        "api-reference/transfer/inter-bank-transfer",
-        "api-reference/transfer/verify-accountnumber"
+        "api-reference/transfer/list-bank",
+        {
+          "group": "Inter Payouts",
+          "pages": [
+            "api-reference/transfer/process-payout",
+            "api-reference/transfer/process-bulk-payout",
+            "api-reference/transfer/resolve-account"
+          ]
+        },
+        {
+          "group": "Intra Payouts",
+          "pages": [
+            "api-reference/transfer/process-intra-payout",
+            "api-reference/transfer/process-intra-bulk-payout",
+            "api-reference/transfer/resolve-intra-account"
+          ]
+        },{
+          "group": "Recurring Payouts",
+          "pages": [
+            "api-reference/transfer/create-recurring",
+            "api-reference/transfer/get-recurring",
+            "api-reference/transfer/toggle-status"
+          ]
+        }
       ]
     },
     {
       "group": "Collections",
       "pages": [
         {
-          "group": "Check Out",
-          "pages": [
-            "api-reference/transfer/initialize-topup"
-          ]
-        },
-        {
           "group": "Virtual Account",
           "pages": [
-            "api-reference/virtual-account/individual",
-            "api-reference/virtual-account/corporate"
+            "api-reference/virtual-account/request-account"
           ]
         },
         {
