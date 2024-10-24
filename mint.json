@@ -39,9 +39,16 @@
       ]
     },
     {
-      "group": "Disbursement",
+      "group": "",
       "pages": [
         "api-reference/get-balance",
+        "api-reference/get-transaction-list",
+        "api-reference/get-requery-list"
+      ]
+    },
+    {
+      "group": "Disbursement",
+      "pages": [
         "api-reference/transfer/list-bank",
         {
           "group": "Inter Payouts",

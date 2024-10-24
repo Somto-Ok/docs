@@ -45,6 +45,71 @@
             }
           }
         }
+      },
+      "/transaction": {
+        "get": {
+          "description": "Get Transaction List",
+          "responses": {
+            "200": {
+              "description": "Get list of all transactions",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TransactionResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/transaction/{tranactionReference}": {
+        "get": {
+          "description": "Get Transaction",
+          "parameters": [
+            {
+              "name": "tranactionReference",
+              "in": "path",
+              "description": "tranaction reference",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get transaction by tranactionReference",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BalanceResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "components": {
@@ -218,6 +283,164 @@
             },
             "required": ["status", "statusCode", "data", "message"]
         },
+        "TransactionResponse": {
+            "type": "object",
+            "properties": {
+            "status": {
+                "type": "boolean",
+                "description": "Indicates if the request was successful"
+            },
+            "statusCode": {
+                "type": "integer",
+                "description": "HTTP status code of the response"
+            },
+            "data": {
+                "type": "object",
+                "properties": {
+                "current_page": {
+                    "type": "integer",
+                    "description": "Current page of the transaction results"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                        "type": "integer",
+                        "description": "Unique identifier for the transaction"
+                        },
+                        "uniqueIdentity": {
+                        "type": "string",
+                        "description": "Unique identity of the transaction"
+                        },
+                        "userIdentity": {
+                        "type": "string",
+                        "description": "User identity involved in the transaction"
+                        },
+                        "transactionAccount": {
+                        "type": "string",
+                        "description": "Account number used in the transaction, if available"
+                        },
+                        "serviceType": {
+                        "type": "string",
+                        "description": "Type of service for the transaction"
+                        },
+                        "productType": {
+                        "type": "string",
+                        "description": "Product type involved in the transaction"
+                        },
+                        "amount": {
+                        "type": "string",
+                        "description": "Amount of the transaction"
+                        },
+                        "transactionStatus": {
+                        "type": "string",
+                        "description": "Status of the transaction"
+                        },
+                        "transactionReference": {
+                        "type": "string",
+                        "description": "Unique transaction reference"
+                        },
+                        "thirdPartyRef": {
+                        "type": "string",
+                        "description": "Reference from the third party system"
+                        },
+                        "beneficiaryName": {
+                        "type": "string",
+                        "description": "Name of the beneficiary"
+                        },
+                        "beneficiaryNumber": {
+                        "type": "string",
+                        "description": "Account number of the beneficiary"
+                        },
+                        "beneficiaryPlatform": {
+                        "type": "string",
+                        "description": "Platform of the beneficiary"
+                        },
+                        "transactionType": {
+                        "type": "string",
+                        "description": "Type of transaction (e.g., DEBIT or CREDIT)"
+                        },
+                        "comment": {
+                        "type": "string",
+                        "description": "Comment on the transaction"
+                        },
+                        "balanceBefore": {
+                        "type": "string",
+                        "description": "Account balance before the transaction"
+                        },
+                        "balanceAfter": {
+                        "type": "string",
+                        "description": "Account balance after the transaction"
+                        },
+                        "isDeleted": {
+                        "type": "boolean",
+                        "description": "Indicates if the transaction has been deleted"
+                        },
+                        "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when the transaction was created"
+                        },
+                        "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when the transaction was last updated"
+                        },
+                        "logs": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "Unique identifier for the transaction log"
+                            },
+                            "status": {
+                                "type": "string",
+                                "description": "Status of the transaction log"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description of the log"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp of when the log was created"
+                            }
+                            }
+                        }
+                        }
+                    }
+                    }
+                },
+                "first_page_url": {
+                    "type": "string",
+                    "description": "URL for the first page of transactions"
+                },
+                "last_page_url": {
+                    "type": "string",
+                    "description": "URL for the last page of transactions"
+                },
+                "next_page_url": {
+                    "type": "string",
+                    "description": "URL for the next page of transactions, if available"
+                },
+                "total": {
+                    "type": "integer",
+                    "description": "Total number of transactions available"
+                }
+                }
+            },
+            "message": {
+                "type": "string",
+                "description": "Response message describing the result of the request"
+            }
+            },
+            "required": ["status", "statusCode", "data", "message"]
+        },          
         "Error": {
           "type": "object",
           "required": [
