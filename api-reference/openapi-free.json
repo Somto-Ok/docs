@@ -1,0 +1,245 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Kele API",
+      "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+      "license": {
+        "name": "MIT"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://corebanking-staging.boldmfb.com/api"
+      }
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "paths": {
+      "/wallets/balance": {
+        "get": {
+          "description": "Get wallet balance",
+          "responses": {
+            "200": {
+              "description": "Get wallet balance information",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BalanceResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request, invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "BalanceResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "description": "Indicates if the request was successful"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "description": "HTTP status code of the response"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "Unique identifier for the wallet"
+                            },
+                            "wallet_id": {
+                                "type": "string",
+                                "description": "Wallet ID associated with the account"
+                            },
+                            "ledger_balance": {
+                                "type": "string",
+                                "description": "Current ledger balance of the wallet"
+                            },
+                            "previous_ledger_balance": {
+                                "type": "string",
+                                "description": "Previous ledger balance of the wallet"
+                            },
+                            "available_balance": {
+                                "type": "string",
+                                "description": "Available balance in the wallet"
+                            },
+                            "previous_available_balance": {
+                                "type": "string",
+                                "description": "Previous available balance in the wallet"
+                            },
+                            "on_hold": {
+                                "type": "boolean",
+                                "description": "Indicates if the wallet is on hold"
+                            },
+                            "held_by": {
+                                "type": "string",
+                                "description": "Indicates who is holding the wallet, if applicable"
+                            },
+                            "hold_reason": {
+                                "type": "string",
+                                "description": "Reason for holding the wallet, if applicable"
+                            },
+                            "has_lien": {
+                                "type": "boolean",
+                                "description": "Indicates if the wallet has a lien"
+                            },
+                            "user_id": {
+                                "type": "integer",
+                                "description": "ID of the user associated with the wallet"
+                            },
+                            "agent_id": {
+                                "type": "integer",
+                                "description": "ID of the agent associated with the wallet"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp when the wallet was created"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp when the wallet was last updated"
+                            },
+                            "is_primary": {
+                                "type": "boolean",
+                                "description": "Indicates if this wallet is the primary one for the user"
+                            },
+                            "has_mandate": {
+                                "type": "boolean",
+                                "description": "Indicates if the wallet has a mandate"
+                            },
+                            "main_account": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "description": "Unique identifier for the main account"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "description": "ID of the user associated with the main account"
+                                    },
+                                    "wallet_id": {
+                                        "type": "integer",
+                                        "description": "Wallet ID linked to the main account"
+                                    },
+                                    "account_type": {
+                                        "type": "string",
+                                        "enum": ["individual", "corporate"],
+                                        "description": "Type of the main account"
+                                    },
+                                    "account_number": {
+                                        "type": "string",
+                                        "description": "Bank account number of the main account"
+                                    },
+                                    "account_name": {
+                                        "type": "string",
+                                        "description": "Name associated with the main account"
+                                    },
+                                    "bank_name": {
+                                        "type": "string",
+                                        "description": "Name of the bank for the main account"
+                                    },
+                                    "bank_code": {
+                                        "type": "string",
+                                        "description": "Bank's unique identification code"
+                                    },
+                                    "account_reference": {
+                                        "type": "string",
+                                        "description": "Reference for the main account"
+                                    },
+                                    "channel_reference": {
+                                        "type": "string",
+                                        "description": "Reference from the channel used for account creation"
+                                    },
+                                    "channel": {
+                                        "type": "string",
+                                        "description": "Channel through which the main account was created"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": ["active", "inactive"],
+                                        "description": "Current status of the main account"
+                                    },
+                                    "created_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp when the main account was created"
+                                    },
+                                    "updated_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp when the main account was last updated"
+                                    },
+                                    "is_permanent": {
+                                        "type": "boolean",
+                                        "description": "Indicates if the main account is permanent"
+                                    },
+                                    "bvn": {
+                                        "type": "string",
+                                        "description": "Bank Verification Number of the user, if applicable"
+                                    },
+                                    "bvn_name": {
+                                        "type": "string",
+                                        "description": "Name associated with the BVN, if applicable"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Response message describing the result of the request"
+                }
+            },
+            "required": ["status", "statusCode", "data", "message"]
+        },
+        "Error": {
+          "type": "object",
+          "required": [
+            "error",
+            "message"
+          ],
+          "properties": {
+            "error": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    }
+  }

@@ -1,334 +1,301 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "title": "Kele API",
-      "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-      "license": {
-        "name": "MIT"
-      },
-      "version": "1.0.0"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Kele API",
+    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "license": {
+      "name": "MIT"
     },
-    "servers": [
-      {
-        "url": "https://corebanking-staging.boldmfb.com/api"
-      }
-    ],
-    "security": [
-      {
-        "bearerAuth": []
-      }
-    ],
-    "paths": {
-      "/payin/virtual-accounts/requests#merge": {
-        "post": {
-          "description": "Individual Account",
-          "requestBody": {
-            "description": "Request an individual virtual account",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://corebanking-staging.boldmfb.com/api"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/payin/virtual-accounts/requests": {
+      "post": {
+        "description": "Request a virtual account",
+        "requestBody": {
+          "description": "Request an individual or corporate virtual account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/IndividualAccountRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CorporateAccountRequest"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "accountType",
+                  "mapping": {
+                    "individual": "#/components/schemas/IndividualAccountRequest",
+                    "corporate": "#/components/schemas/CorporateAccountRequest"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Virtual account successfully created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IndividualAccountRequest"
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "Individual corporate account successfully created",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AccountResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request, invalid parameters",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/AccountResponse"
                 }
               }
             }
-          }
-        }
-      },
-      "/payin/virtual-accounts/requests#corporate": {
-        "post": {
-          "description": "Corporate Account",
-          "requestBody": {
-            "description": "Request a corporate virtual account",
+          },
+          "400": {
+            "description": "Bad Request, invalid parameters",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CorporateAccountRequest"
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "Corporate virtual account successfully created",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AccountResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request, invalid parameters",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
           }
-        }
-      }
-    },
-    "components": {
-      "schemas": {
-        "IndividualAccountRequest": {
-            "type": "object",
-            "required": [
-            "bvn",
-            "firstName",
-            "lastName",
-            "accountType",
-            "accountNumber",
-            "bvnName",
-            "walletNo"
-            ],
-            "properties": {
-            "bvn": {
-                "type": "string",
-                "description": "Bank Verification Number of the individual"
-            },
-            "firstName": {
-                "type": "string",
-                "description": "First name of the individual"
-            },
-            "lastName": {
-                "type": "string",
-                "description": "Last name of the individual"
-            },
-            "accountType": {
-                "type": "string",
-                "enum": ["corporate", "personal"],
-                "description": "Type of account, either 'corporate' or 'personal'"
-            },
-            "businessName": {
-                "type": "string",
-                "description": "Name of the business (only applicable if accountType is 'corporate')"
-            },
-            "accountNumber": {
-                "type": "string",
-                "description": "Bank account number of the individual"
-            },
-            "dateOfBirth": {
-                "type": "string",
-                "format": "date",
-                "description": "Date of birth of the individual in DD-MM-YYYY format"
-            },
-            "bvnName": {
-                "type": "string",
-                "description": "Full name as associated with the BVN"
-            },
-            "walletNo": {
-                "type": "string",
-                "description": "Wallet number linked to the account"
-            }
-            }
-        },   
-        "CorporateAccountRequest": {
-            "type": "object",
-            "required": [
-            "accountType",
-            "dateOfBirth",
-            "bvn",
-            "bvnName",
-            "businessName",
-            "channel"
-            ],
-            "properties": {
-            "accountType": {
-                "type": "string",
-                "description": "Type of account, e.g., 'corporate'",
-                "example": "corporate"
-            },
-            "dateOfBirth": {
-                "type": "string",
-                "description": "Date of birth in 'DD-MM-YYYY' format",
-                "example": "10-12-1992"
-            },
-            "bvn": {
-                "type": "string",
-                "description": "Bank Verification Number (BVN), 10-digit number",
-                "example": "{{randomTenDigitNumber}}1"
-            },
-            "bvnName": {
-                "type": "string",
-                "description": "Name linked to the BVN",
-                "example": "{{$randomFullName}}"
-            },
-            "businessName": {
-                "type": "string",
-                "description": "Name of the business",
-                "example": "{{$randomBankAccountName}}"
-            },
-            "channel": {
-                "type": "string",
-                "description": "Channel through which the request is made",
-                "example": "globus"
-            }
-            }
-        },   
-        "AccountResponse": {
-            "type": "object",
-            "properties": {
-            "status": {
-                "type": "boolean",
-                "description": "Indicates if the request was successful"
-            },
-            "statusCode": {
-                "type": "integer",
-                "description": "HTTP status code of the response"
-            },
-            "data": {
-                "type": "object",
-                "properties": {
-                "id": {
-                    "type": "integer",
-                    "description": "Unique identifier for the account"
-                },
-                "user_id": {
-                    "type": "string",
-                    "description": "ID of the user associated with the account"
-                },
-                "wallet_id": {
-                    "type": "integer",
-                    "description": "Wallet ID linked to the account"
-                },
-                "account_type": {
-                    "type": "string",
-                    "enum": ["corporate", "personal"],
-                    "description": "Type of the account (corporate or personal)"
-                },
-                "account_number": {
-                    "type": "string",
-                    "description": "Account number associated with the user"
-                },
-                "account_name": {
-                    "type": "string",
-                    "description": "Name associated with the account"
-                },
-                "bank_name": {
-                    "type": "string",
-                    "description": "Name of the bank"
-                },
-                "bank_code": {
-                    "type": "string",
-                    "description": "Bank's unique identification code"
-                },
-                "account_reference": {
-                    "type": "string",
-                    "description": "Reference for the account"
-                },
-                "channel_reference": {
-                    "type": "string",
-                    "description": "Reference from the channel used for account creation"
-                },
-                "channel": {
-                    "type": "string",
-                    "description": "Channel through which the account was created"
-                },
-                "status": {
-                    "type": "string",
-                    "enum": ["active", "inactive"],
-                    "description": "Current status of the account"
-                },
-                "created_at": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "Timestamp when the account was created"
-                },
-                "updated_at": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "Timestamp when the account was last updated"
-                },
-                "is_permanent": {
-                    "type": "boolean",
-                    "description": "Indicates if the account is permanent"
-                },
-                "bvn": {
-                    "type": "string",
-                    "description": "Bank Verification Number of the user"
-                },
-                "bvn_name": {
-                    "type": "string",
-                    "description": "Name associated with the BVN"
-                }
-                },
-                "required": [
-                "id",
-                "user_id",
-                "wallet_id",
-                "account_type",
-                "account_number",
-                "account_name",
-                "bank_name",
-                "bank_code",
-                "account_reference",
-                "channel_reference",
-                "channel",
-                "status",
-                "created_at",
-                "updated_at",
-                "is_permanent",
-                "bvn",
-                "bvn_name"
-                ]
-            },
-            "message": {
-                "type": "string",
-                "description": "Response message describing the result of the request"
-            }
-            },
-            "required": ["status", "statusCode", "data", "message"]
-        },                 
-        "Error": {
-          "required": [
-            "error",
-            "message"
-          ],
-          "type": "object",
-          "properties": {
-            "error": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "message": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "securitySchemes": {
-        "bearerAuth": {
-          "type": "http",
-          "scheme": "bearer"
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "IndividualAccountRequest": {
+        "type": "object",
+        "required": [
+          "bvn",
+          "firstName",
+          "lastName",
+          "accountType",
+          "accountNumber",
+          "bvnName",
+          "walletNo"
+        ],
+        "properties": {
+          "bvn": {
+            "type": "string",
+            "description": "Bank Verification Number of the individual"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of the individual"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of the individual"
+          },
+          "accountType": {
+            "type": "string",
+            "enum": ["individual"],
+            "description": "Type of account, only for individual accounts"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number of the individual"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of birth of the individual in DD-MM-YYYY format"
+          },
+          "bvnName": {
+            "type": "string",
+            "description": "Full name as associated with the BVN"
+          },
+          "walletNo": {
+            "type": "string",
+            "description": "Wallet number linked to the account"
+          }
+        }
+      },
+      "CorporateAccountRequest": {
+        "type": "object",
+        "required": [
+          "accountType",
+          "dateOfBirth",
+          "bvn",
+          "bvnName",
+          "businessName",
+          "channel"
+        ],
+        "properties": {
+          "accountType": {
+            "type": "string",
+            "enum": ["corporate"],
+            "description": "Type of account, only 'corporate' for corporate accounts"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Date of incorporation in 'DD-MM-YYYY' format"
+          },
+          "bvn": {
+            "type": "string",
+            "description": "Bank Verification Number (BVN), 10-digit number"
+          },
+          "bvnName": {
+            "type": "string",
+            "description": "Name linked to the BVN"
+          },
+          "businessName": {
+            "type": "string",
+            "description": "Name of the business"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel through which the request is made"
+          }
+        }
+      },
+      "AccountResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates if the request was successful"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Unique identifier for the account"
+              },
+              "user_id": {
+                "type": "string",
+                "description": "ID of the user associated with the account"
+              },
+              "wallet_id": {
+                "type": "integer",
+                "description": "Wallet ID linked to the account"
+              },
+              "account_type": {
+                "type": "string",
+                "enum": ["corporate", "individual"],
+                "description": "Type of the account (corporate or individual)"
+              },
+              "account_number": {
+                "type": "string",
+                "description": "Account number associated with the user"
+              },
+              "account_name": {
+                "type": "string",
+                "description": "Name associated with the account"
+              },
+              "bank_name": {
+                "type": "string",
+                "description": "Name of the bank"
+              },
+              "bank_code": {
+                "type": "string",
+                "description": "Bank's unique identification code"
+              },
+              "account_reference": {
+                "type": "string",
+                "description": "Reference for the account"
+              },
+              "channel_reference": {
+                "type": "string",
+                "description": "Reference from the channel used for account creation"
+              },
+              "channel": {
+                "type": "string",
+                "description": "Channel through which the account was created"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["active", "inactive"],
+                "description": "Current status of the account"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the account was created"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the account was last updated"
+              },
+              "is_permanent": {
+                "type": "boolean",
+                "description": "Indicates if the account is permanent"
+              },
+              "bvn": {
+                "type": "string",
+                "description": "Bank Verification Number of the user"
+              },
+              "bvn_name": {
+                "type": "string",
+                "description": "Name associated with the BVN"
+              }
+            },
+            "required": [
+              "id",
+              "user_id",
+              "wallet_id",
+              "account_type",
+              "account_number",
+              "account_name",
+              "bank_name",
+              "bank_code",
+              "account_reference",
+              "channel_reference",
+              "channel",
+              "status",
+              "created_at",
+              "updated_at",
+              "is_permanent",
+              "bvn",
+              "bvn_name"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message describing the result of the request"
+          }
+        },
+        "required": ["status", "statusCode", "data", "message"]
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error",
+          "message"
+        ],
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
   }
+}
