@@ -75,7 +75,7 @@
       },
       "/transaction/{tranactionReference}": {
         "get": {
-          "description": "Get Transaction",
+          "description": "Get Transaction Status",
           "parameters": [
             {
               "name": "tranactionReference",

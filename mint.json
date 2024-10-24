@@ -43,7 +43,7 @@
       "pages": [
         "api-reference/get-balance",
         "api-reference/get-transaction-list",
-        "api-reference/get-requery-list"
+        "api-reference/get-transaction-status"
       ]
     },
     {
