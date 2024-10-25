@@ -81,7 +81,8 @@
         {
           "group": "Virtual Account",
           "pages": [
-            "api-reference/virtual-account/request-account"
+            "api-reference/virtual-account/individual-account",
+            "api-reference/virtual-account/corporate-account"
           ]
         },
         {

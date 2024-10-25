@@ -21,9 +21,9 @@
   "paths": {
     "/payout": {
       "post": {
-        "description": "Individual Account",
+        "description": "Process a Payout",
         "requestBody": {
-          "description": "Request an individual virtual account",
+          "description": "Process a payout",
           "content": {
             "application/json": {
               "schema": {
@@ -35,7 +35,7 @@
         },
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Payout successfully created",
             "content": {
               "application/json": {
                 "schema": {
@@ -59,9 +59,9 @@
     },   
     "/payout/bulk": {
       "post": {
-        "description": "Individual Account",
+        "description": "Process Bulk Payout",
         "requestBody": {
-          "description": "Request an individual virtual account",
+          "description": "Request a bulk payout",
           "content": {
             "application/json": {
               "schema": {
@@ -73,7 +73,7 @@
         },
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Bulk payout successfully created",
             "content": {
               "application/json": {
                 "schema": {
@@ -97,9 +97,9 @@
     }, 
     "/payout/resolve": {
       "post": {
-        "description": "Individual Account",
+        "description": "Resolve Account",
         "requestBody": {
-          "description": "Request an individual virtual account",
+          "description": "Request account",
           "content": {
             "application/json": {
               "schema": {
@@ -111,7 +111,7 @@
         },
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Account successfully resolved",
             "content": {
               "application/json": {
                 "schema": {
@@ -135,9 +135,9 @@
     },
     "/intra-payout": {
       "post": {
-        "description": "Individual Account",
+        "description": "Process Intra Payout",
         "requestBody": {
-          "description": "Request an individual virtual account",
+          "description": "Process an intra payout",
           "content": {
             "application/json": {
               "schema": {
@@ -149,7 +149,7 @@
         },
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Intra payout successfully created",
             "content": {
               "application/json": {
                 "schema": {
@@ -173,9 +173,9 @@
     },
     "/payout/intra-bulk": {
       "post": {
-        "description": "Individual Account",
+        "description": "Process Intra Bulk Payout",
         "requestBody": {
-          "description": "Request an individual virtual account",
+          "description": "Process an intra bulk payout",
           "content": {
             "application/json": {
               "schema": {
@@ -187,7 +187,7 @@
         },
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Intra bulk payout successfully created",
             "content": {
               "application/json": {
                 "schema": {
@@ -211,9 +211,9 @@
     },
     "/payout/intra-resolve": {
       "post": {
-        "description": "Individual Account",
+        "description": "Resolve Intra Account",
         "requestBody": {
-          "description": "Request an individual virtual account",
+          "description": "Resolve an intra account",
           "content": {
             "application/json": {
               "schema": {
@@ -225,7 +225,7 @@
         },
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Intra account successfully resolved",
             "content": {
               "application/json": {
                 "schema": {
@@ -350,10 +350,10 @@
     },
     "/payout/banks": {
       "get": {
-        "description": "Individual Account",
+        "description": "Get Bank List",
         "responses": {
           "200": {
-            "description": "Individual corporate account successfully created",
+            "description": "Bank List gotten successfully",
             "content": {
               "application/json": {
                 "schema": {
