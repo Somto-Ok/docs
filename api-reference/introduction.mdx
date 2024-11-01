@@ -1,33 +1,22 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Documentation for BoldBank API endpoints'
 ---
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  This documentation covers the API endpoints for BoldBank. Please refer to the details below for information on authentication and the endpoints available.
 </Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+This documentation provides a comprehensive overview of the BoldBank API endpoints and how to interact with them. Below, you'll find sections for authentication and details on the various endpoints available.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication using public and secret keys. Include both keys in the request headers to authorize your API calls.
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+"headers": {
+  "x-api-key": "your_public_key",
+  "x-api-secret": "your_secret_key"
+}
