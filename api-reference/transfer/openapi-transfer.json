@@ -15,7 +15,8 @@
   ],
   "security": [
     {
-      "bearerAuth": []
+      "apiKeyAuth": [],
+      "secretKeyAuth": []
     }
   ],
   "paths": {
@@ -383,21 +384,26 @@
         "properties": {
           "amount": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "description": "The amount of money to be paid out."
           },
           "sender": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the sender initiating the payout."
           },
           "accountName": {
-            "type": "string"
+            "type": "string",
+            "description": "The name associated with the payout account."
           },
           "accountNumber": {
             "type": "string",
-            "pattern": "^[0-9]{10}$"
+            "pattern": "^[0-9]{10}$",
+            "description": "The account number for the payout, must be 10 digits."
           },
           "bankCode": {
             "type": "string",
-            "pattern": "^[0-9]{3}$"
+            "pattern": "^[0-9]{3}$",
+            "description": "The code of the bank associated with the account, must be 3 digits."
           }
         },
         "required": ["amount", "sender", "accountName", "accountNumber", "bankCode"]
@@ -406,82 +412,105 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the payout request was successful."
           },
           "statusCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The status code of the payout response."
           },
           "data": {
             "type": "object",
             "properties": {
               "uniqueIdentity": {
                 "type": "string",
-                "format": "uuid"
+                "format": "uuid",
+                "description": "A unique identifier for the payout transaction."
               },
               "userIdentity": {
                 "type": "string",
-                "format": "uuid"
+                "format": "uuid",
+                "description": "The identifier for the user associated with the payout."
               },
               "productType": {
-                "type": "string"
+                "type": "string",
+                "description": "The type of product associated with the payout."
               },
               "amount": {
-                "type": "string"
+                "type": "string",
+                "description": "The total amount being paid out."
               },
               "netAmount": {
-                "type": "string"
+                "type": "string",
+                "description": "The net amount after any deductions."
               },
               "fee": {
-                "type": "string"
+                "type": "string",
+                "description": "The fee applied to the payout."
               },
               "commission": {
-                "type": "string"
+                "type": "string",
+                "description": "The commission charged for the payout."
               },
               "transactionAccount": {
-                "type": "string"
+                "type": "string",
+                "description": "The account used for the transaction."
               },
               "transactionStatusCode": {
-                "type": "string"
+                "type": "string",
+                "description": "The status code of the transaction."
               },
               "transactionStatus": {
-                "type": "string"
+                "type": "string",
+                "description": "The current status of the transaction."
               },
               "transactionReference": {
-                "type": "string"
+                "type": "string",
+                "description": "The reference number for the transaction."
               },
               "beneficiaryName": {
-                "type": "string"
+                "type": "string",
+                "description": "The name of the beneficiary receiving the payout."
               },
               "beneficiaryNumber": {
                 "type": "string",
-                "pattern": "^[0-9]{10}$"
+                "pattern": "^[0-9]{10}$",
+                "description": "The beneficiary's account number, must be 10 digits."
               },
               "beneficiaryPlatform": {
-                "type": "string"
+                "type": "string",
+                "description": "The platform used by the beneficiary."
               },
               "senderName": {
-                "type": "string"
+                "type": "string",
+                "description": "The name of the sender."
               },
               "senderNumber": {
-                "type": "string"
+                "type": "string",
+                "description": "The contact number of the sender."
               },
               "senderPlatform": {
-                "type": "string"
+                "type": "string",
+                "description": "The platform used by the sender."
               },
               "transactionType": {
-                "type": "string"
+                "type": "string",
+                "description": "The type of transaction performed."
               },
               "comment": {
-                "type": "string"
+                "type": "string",
+                "description": "Any comments or notes related to the payout."
               },
               "sessionId": {
-                "type": "string"
+                "type": "string",
+                "description": "The session identifier for the transaction."
               }
             }
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "A message providing additional information about the payout response."
           }
         }
       },
@@ -494,21 +523,26 @@
               "type": "object",
               "properties": {
                 "amount": {
-                  "type": "integer"
+                  "type": "integer",
+                  "description": "The amount to be paid out in each transaction."
                 },
                 "sender": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The name of the sender initiating the bulk payout."
                 },
                 "accountName": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The name associated with each payout account."
                 },
                 "accountNumber": {
                   "type": "string",
-                  "pattern": "^[0-9]{10}$"
+                  "pattern": "^[0-9]{10}$",
+                  "description": "The account number for each payout, must be 10 digits."
                 },
                 "bankCode": {
                   "type": "string",
-                  "pattern": "^[0-9]{3}$"
+                  "pattern": "^[0-9]{3}$",
+                  "description": "The code of the bank associated with each account, must be 3 digits."
                 }
               },
               "required": [
@@ -527,48 +561,60 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the bulk payout request was successful."
           },
           "statusCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The status code of the bulk payout response."
           },
           "data": {
             "type": "object",
             "properties": {
               "user_id": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The identifier for the user who requested the bulk payout."
               },
               "total_count": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The total number of payouts requested."
               },
               "type": {
-                "type": "string"
+                "type": "string",
+                "description": "The type of bulk payout."
               },
               "wallet_id": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The identifier for the wallet associated with the payouts."
               },
               "updated_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "description": "The timestamp when the bulk payout was last updated."
               },
               "created_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "description": "The timestamp when the bulk payout was created."
               },
               "id": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The identifier for the bulk payout request."
               },
               "total_processed": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The total number of payouts that have been processed."
               },
               "description": {
-                "type": "string"
+                "type": "string",
+                "description": "A description of the bulk payout."
               }
             }
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "A message providing additional information about the bulk payout response."
           }
         }
       },
@@ -578,12 +624,14 @@
           "bankCode": {
             "type": "string",
             "pattern": "^[0-9]{3}$",
-            "example": "033"
+            "example": "033",
+            "description": "The code of the bank to resolve, must be 3 digits."
           },
           "accountNumber": {
             "type": "string",
             "pattern": "^[0-9]{10}$",
-            "example": "2130703419"
+            "example": "2130703419",
+            "description": "The account number to resolve, must be 10 digits."
           }
         },
         "required": ["bankCode", "accountNumber"]
@@ -592,45 +640,53 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the resolution request was successful."
           },
           "statusCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The status code of the resolution response."
           },
           "data": {
             "type": "object",
             "properties": {
               "accountNumber": {
                 "type": "string",
-                "example": "1010101010"
+                "example": "1010101010",
+                "description": "The resolved account number."
               },
               "accountName": {
                 "type": "string",
-                "example": "Customer Name"
+                "example": "Customer Name",
+                "description": "The name associated with the resolved account."
               },
               "bankName": {
                 "type": "string",
-                "example": "GTBank Plc"
+                "example": "GTBank Plc",
+                "description": "The name of the bank associated with the resolved account."
               },
               "bankCode": {
                 "type": "string",
-                "example": "058"
+                "example": "058",
+                "description": "The code of the bank associated with the resolved account."
               }
             }
           },
           "message": {
             "type": "string",
-            "example": "Action was Successful"
+            "example": "Action was Successful",
+            "description": "A message providing additional information about the resolution response."
           }
         }
-      },    
+      },
       "IntraPayoutRequest": {
         "type": "object",
         "properties": {
           "walletNo": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The wallet number from which payouts will be made."
           },
           "payouts": {
             "type": "array",
@@ -638,14 +694,17 @@
               "type": "object",
               "properties": {
                 "accountOrPhoneNumber": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The account number or phone number of the recipient."
                 },
                 "amount": {
-                  "type": "integer"
+                  "type": "integer",
+                  "description": "The amount to be paid out."
                 }
               },
               "required": ["accountOrPhoneNumber", "amount"]
-            }
+            },
+            "description": "A list of payouts to be processed."
           }
         },
         "required": ["payouts"]
@@ -654,23 +713,27 @@
         "type": "object",
         "properties": {
           "accountOrPhoneNumber": {
-            "type": "string"
+            "type": "string",
+            "description": "The account number or phone number for the bulk payout."
           }
         },
         "required": ["accountOrPhoneNumber"]
-      },   
+      },
       "IntraResolveRequest": {
         "type": "object",
         "properties": {
           "accountOrPhoneNumber": {
-            "type": "string"
+            "type": "string",
+            "description": "The account number or phone number to be resolved."
           },
           "amount": {
-            "type": "integer"
+            "type": "integer",
+            "description": "The amount associated with the resolution."
           },
           "walletNo": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The wallet number related to the account or phone number."
           }
         },
         "required": ["accountOrPhoneNumber", "amount"]
@@ -680,37 +743,44 @@
         "properties": {
           "startDate": {
             "type": "string",
-            "format": "date"
+            "format": "date",
+            "description": "The date when the recurring transaction starts."
           },
           "circle": {
             "type": "string",
-            "enum": ["daily", "weekly", "monthly"]
+            "enum": ["daily", "weekly", "monthly"],
+            "description": "The frequency of the recurring transaction."
           },
           "destination": {
             "type": "string",
-            "enum": ["bank_account", "wallet"]
+            "enum": ["bank_account", "wallet"],
+            "description": "The destination type for the payout."
           },
           "bankCode": {
-            "type": "string"
+            "type": "string",
+            "description": "The code of the bank for the transaction."
           },
           "amount": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "description": "The amount to be paid out in each recurrence."
           },
           "accountOrPhoneNumber": {
-            "type": "string"
+            "type": "string",
+            "description": "The account number or phone number of the recipient."
           },
           "isTotal": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates if the recurring payment is a total payment."
           }
         },
         "required": [
-          "startDate", 
-          "circle", 
-          "destination", 
-          "bankCode", 
-          "amount", 
-          "accountOrPhoneNumber", 
+          "startDate",
+          "circle",
+          "destination",
+          "bankCode",
+          "amount",
+          "accountOrPhoneNumber",
           "isTotal"
         ]
       },
@@ -718,102 +788,127 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the recurring request was successful."
           },
           "statusCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The status code of the response."
           },
           "data": {
             "type": "object",
             "properties": {
               "id": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The unique identifier for the recurring transaction."
               },
               "user_id": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The identifier for the user who created the recurring request."
               },
               "wallet_id": {
-                "type": "integer"
+                "type": "integer",
+                "description": "The identifier for the wallet associated with the recurring request."
               },
               "amount": {
                 "type": "string",
-                "format": "decimal"
+                "format": "decimal",
+                "description": "The amount set for the recurring payment."
               },
               "start_date": {
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "description": "The date when the recurring transaction starts."
               },
               "end_date": {
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "description": "The date when the recurring transaction ends."
               },
               "last_settlement_date": {
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "description": "The date when the last payment was settled."
               },
               "next_settlement_date": {
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "description": "The date when the next payment will be settled."
               },
               "circle": {
-                "type": "string"
+                "type": "string",
+                "description": "The frequency of the recurring transaction."
               },
               "destination": {
-                "type": "string"
+                "type": "string",
+                "description": "The destination type for the payout."
               },
               "product_type": {
-                "type": "string"
+                "type": "string",
+                "description": "The type of product associated with the recurring transaction."
               },
               "bank_code": {
-                "type": "string"
+                "type": "string",
+                "description": "The code of the bank for the transaction."
               },
               "bank_name": {
-                "type": "string"
+                "type": "string",
+                "description": "The name of the bank for the transaction."
               },
               "account_name": {
-                "type": "string"
+                "type": "string",
+                "description": "The name of the account holder."
               },
               "account_phone_number": {
-                "type": "string"
+                "type": "string",
+                "description": "The phone number associated with the account."
               },
               "is_active": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "Indicates if the recurring transaction is active."
               },
               "is_total": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "Indicates if the recurring payment is a total payment."
               },
               "created_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "description": "The timestamp when the recurring transaction was created."
               },
               "updated_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "description": "The timestamp when the recurring transaction was last updated."
               }
             }
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "A message providing additional information about the recurring response."
           }
         }
-      },            
+      },
       "GetRecurringResponse": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the request was successful."
           },
           "statusCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The status code of the response."
           },
           "data": {
             "type": "object",
             "properties": {
               "current_page": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "The current page number of the results."
               },
               "data": {
                 "type": "array",
@@ -822,88 +917,111 @@
                   "properties": {
                     "id": {
                       "type": "integer",
-                      "format": "int32"
+                      "format": "int32",
+                      "description": "The unique identifier for the recurring transaction."
                     },
                     "user_id": {
                       "type": "integer",
-                      "format": "int32"
+                      "format": "int32",
+                      "description": "The identifier for the user associated with the transaction."
                     },
                     "wallet_id": {
                       "type": "integer",
-                      "format": "int32"
+                      "format": "int32",
+                      "description": "The identifier for the wallet associated with the transaction."
                     },
                     "amount": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The amount set for the recurring payment."
                     },
                     "start_date": {
                       "type": "string",
-                      "format": "date"
+                      "format": "date",
+                      "description": "The date when the recurring transaction starts."
                     },
                     "end_date": {
                       "type": "string",
-                      "format": "date"
+                      "format": "date",
+                      "description": "The date when the recurring transaction ends."
                     },
                     "last_settlement_date": {
                       "type": "string",
-                      "format": "date"
+                      "format": "date",
+                      "description": "The date when the last payment was settled."
                     },
                     "next_settlement_date": {
                       "type": "string",
-                      "format": "date"
+                      "format": "date",
+                      "description": "The date when the next payment will be settled."
                     },
                     "circle": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The frequency of the recurring transaction."
                     },
                     "destination": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The destination type for the payout."
                     },
                     "product_type": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The type of product associated with the recurring transaction."
                     },
                     "bank_code": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The code of the bank for the transaction."
                     },
                     "bank_name": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The name of the bank for the transaction."
                     },
                     "account_name": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The name of the account holder."
                     },
                     "account_phone_number": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The phone number associated with the account."
                     },
                     "is_active": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "Indicates if the recurring transaction is active."
                     },
                     "is_total": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "Indicates if the recurring payment is a total payment."
                     },
                     "created_at": {
                       "type": "string",
-                      "format": "date-time"
+                      "format": "date-time",
+                      "description": "The timestamp when the recurring transaction was created."
                     },
                     "updated_at": {
                       "type": "string",
-                      "format": "date-time"
+                      "format": "date-time",
+                      "description": "The timestamp when the recurring transaction was last updated."
                     }
                   }
                 }
               },
               "first_page_url": {
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "description": "The URL for the first page of results."
               },
               "from": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "The starting record number for the current page."
               },
               "last_page": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "The total number of pages available."
               },
               "last_page_url": {
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "description": "The URL for the last page of results."
               },
               "links": {
                 "type": "array",
@@ -912,45 +1030,56 @@
                   "properties": {
                     "url": {
                       "type": "string",
-                      "format": "uri"
+                      "format": "uri",
+                      "description": "The URL for the respective page."
                     },
                     "label": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "The label for the respective link."
                     },
                     "active": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "Indicates if the link is for the current page."
                     }
                   }
-                }
+                },
+                "description": "Pagination links for navigating through pages."
               },
               "next_page_url": {
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "description": "The URL for the next page of results."
               },
               "path": {
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "description": "The base URL for the request."
               },
               "per_page": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "The number of items per page."
               },
               "prev_page_url": {
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "description": "The URL for the previous page of results."
               },
               "to": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "The ending record number for the current page."
               },
               "total": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "The total number of records available."
               }
             }
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "A message providing additional information about the request."
           }
         }
       },
@@ -958,11 +1087,13 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the request was successful."
           },
           "statusCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The status code of the response."
           },
           "data": {
             "type": "array",
@@ -970,41 +1101,49 @@
               "type": "object",
               "properties": {
                 "code": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The unique code for the bank."
                 },
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The name of the bank."
                 }
               },
               "required": ["code", "name"]
-            }
-          },
-          "message": {
-            "type": "string"
-          }
-        },
-        "required": ["status", "statusCode", "data", "message"]
-      },            
-      "Success" : {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "boolean"
-          },
-          "statusCode": {
-            "type": "integer"
-          },
-          "data": {
-            "type": "object",
-            "additionalProperties": true
+            },
+            "description": "A list of banks available."
           },
           "message": {
             "type": "string",
-            "nullable": true
+            "description": "A message providing additional information about the request."
+          }
+        },
+        "required": ["status", "statusCode", "data", "message"]
+      },
+      "Success": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful."
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "The status code of the response."
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The data returned from the request."
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "A message providing additional information about the request."
           }
         },
         "required": ["status", "statusCode"]
-      },               
+      },
       "Error": {
         "required": [
           "error",
@@ -1014,18 +1153,26 @@
         "properties": {
           "error": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "The error code indicating the type of error."
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "A message providing additional information about the error."
           }
         }
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      },
+      "secretKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-secret"
       }
     }
   }
