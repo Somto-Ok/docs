@@ -134,7 +134,7 @@
         }
       }
     },
-    "/intra-payout": {
+    "/payout/intra-payout": {
       "post": {
         "description": "Process Intra Payout",
         "requestBody": {
@@ -683,11 +683,20 @@
       "IntraPayoutRequest": {
         "type": "object",
         "properties": {
-          "walletNo": {
+          "accountOrPhoneNumber": {
             "type": "string",
-            "nullable": true,
-            "description": "The wallet number from which payouts will be made."
+            "description": "The account number or phone number of the recipient."
           },
+          "amount": {
+            "type": "integer",
+            "description": "The amount to be paid out."
+          }
+        },
+        "required": ["accountOrPhoneNumber", "amount"]
+      },
+      "IntraBulkPayoutRequest": {
+        "type": "object",
+        "properties": {
           "payouts": {
             "type": "array",
             "items": {
@@ -695,29 +704,19 @@
               "properties": {
                 "accountOrPhoneNumber": {
                   "type": "string",
-                  "description": "The account number or phone number of the recipient."
+                  "description": "The account number or phone number for the bulk payout."
                 },
                 "amount": {
-                  "type": "integer",
+                  "type": "number",
                   "description": "The amount to be paid out."
                 }
               },
               "required": ["accountOrPhoneNumber", "amount"]
             },
-            "description": "A list of payouts to be processed."
+            "description": "A list of payouts to be made."
           }
         },
         "required": ["payouts"]
-      },
-      "IntraBulkPayoutRequest": {
-        "type": "object",
-        "properties": {
-          "accountOrPhoneNumber": {
-            "type": "string",
-            "description": "The account number or phone number for the bulk payout."
-          }
-        },
-        "required": ["accountOrPhoneNumber"]
       },
       "IntraResolveRequest": {
         "type": "object",
@@ -725,15 +724,6 @@
           "accountOrPhoneNumber": {
             "type": "string",
             "description": "The account number or phone number to be resolved."
-          },
-          "amount": {
-            "type": "integer",
-            "description": "The amount associated with the resolution."
-          },
-          "walletNo": {
-            "type": "string",
-            "nullable": true,
-            "description": "The wallet number related to the account or phone number."
           }
         },
         "required": ["accountOrPhoneNumber", "amount"]
