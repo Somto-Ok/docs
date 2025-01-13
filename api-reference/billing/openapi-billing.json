@@ -249,15 +249,26 @@
         }
         },      
         "/billing/get_betting_customer": {
-        "get": {
-            "description": "Get Transaction List",
+        "post": {
+            "description": "Retrieve betting customer details by providing provider and customer ID",
+            "requestBody": {
+            "description": "Details required to retrieve betting customer information",
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/GetBettingCustomerRequest"
+                }
+                }
+            }
+            },
             "responses": {
             "200": {
-                "description": "Get list of all transactions",
+                "description": "Betting customer details retrieved successfully",
                 "content": {
                 "application/json": {
                     "schema": {
-                    "$ref": "#/components/schemas/TransactionResponse"
+                    "$ref": "#/components/schemas/GetBettingCustomerResponse"
                     }
                 }
                 }
@@ -274,17 +285,28 @@
             }
             }
         }
-        },
+        },      
         "/billing/top_up_betting": {
-        "get": {
-            "description": "Get Transaction List",
+        "post": {
+            "description": "Top up a betting account by providing provider, customer ID, and amount",
+            "requestBody": {
+            "description": "Details required to top up a betting account",
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/TopUpBettingRequest"
+                }
+                }
+            }
+            },
             "responses": {
             "200": {
-                "description": "Get list of all transactions",
+                "description": "Betting account topped up successfully",
                 "content": {
                 "application/json": {
                     "schema": {
-                    "$ref": "#/components/schemas/TransactionResponse"
+                    "$ref": "#/components/schemas/TopUpBettingResponse"
                     }
                 }
                 }
@@ -301,17 +323,28 @@
             }
             }
         }
-        },
+        },      
         "/billing/packages": {
-        "get": {
-            "description": "Get Transaction List",
+        "post": {
+            "description": "Retrieve available packages based on product type and provider",
+            "requestBody": {
+            "description": "Details required to fetch packages",
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/GetPackagesRequest"
+                }
+                }
+            }
+            },
             "responses": {
             "200": {
-                "description": "Get list of all transactions",
+                "description": "Packages retrieved successfully",
                 "content": {
                 "application/json": {
                     "schema": {
-                    "$ref": "#/components/schemas/TransactionResponse"
+                    "$ref": "#/components/schemas/GetPackagesResponse"
                     }
                 }
                 }
@@ -328,34 +361,45 @@
             }
             }
         }
-        },
-        "/billing/providers?productType=Electricity": {
-        "get": {
-            "description": "Get Transaction List",
-            "responses": {
-            "200": {
-                "description": "Get list of all transactions",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/TransactionResponse"
+        },      
+        "/billing/providers?productType={type}": {
+            "get": {
+              "description": "Retrieve a list of service providers for a specific product type",
+              "parameters": [
+                {
+                  "name": "productType",
+                  "in": "query",
+                  "required": true,
+                  "description": "The type of product to retrieve providers for (e.g., Electricity, Data, Cable TV)",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Providers retrieved successfully",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/GetProvidersResponse"
+                      }
                     }
-                }
-                }
-            },
-            "400": {
-                "description": "Bad Request, invalid parameters",
-                "content": {
-                "application/json": {
-                    "schema": {
-                    "$ref": "#/components/schemas/Error"
+                  }
+                },
+                "400": {
+                  "description": "Bad Request, invalid parameters",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      }
                     }
+                  }
                 }
-                }
+              }
             }
-            }
-        }
-        }
+        }      
     },
     "components": {
       "schemas": {
@@ -619,6 +663,76 @@
             }
         }
         },
+        "GetBettingCustomerRequest": {
+            "type": "object",
+            "properties": {
+              "bettingProvider": {
+                "type": "string",
+                "description": "The name of the betting provider (e.g., BetKing)"
+              },
+              "customerId": {
+                "type": "string",
+                "description": "The unique identifier of the betting customer"
+              }
+            },
+            "required": ["bettingProvider", "customerId"]
+        },
+        "GetBettingCustomerResponse": {
+        "type": "object",
+        "properties": {
+            "customerName": {
+            "type": "string",
+            "description": "The name of the betting customer"
+            },
+            "balance": {
+            "type": "number",
+            "description": "The account balance of the betting customer"
+            },
+            "message": {
+            "type": "string",
+            "description": "A message confirming the success of the request"
+            }
+        }
+        },
+        "TopUpBettingRequest": {
+            "type": "object",
+            "properties": {
+              "bettingProvider": {
+                "type": "string",
+                "description": "The name of the betting provider (e.g., BetKing)"
+              },
+              "customerId": {
+                "type": "string",
+                "description": "The unique identifier of the betting customer"
+              },
+              "amount": {
+                "type": "string",
+                "description": "The amount to be credited to the betting account"
+              },
+              "transactionPin": {
+                "type": "string",
+                "description": "The PIN used to authorize the transaction"
+              }
+            },
+            "required": ["bettingProvider", "customerId", "amount", "transactionPin"]
+        },
+        "TopUpBettingResponse": {
+        "type": "object",
+        "properties": {
+            "transactionId": {
+            "type": "string",
+            "description": "The unique identifier for the transaction"
+            },
+            "amount": {
+            "type": "string",
+            "description": "The amount credited to the betting account"
+            },
+            "message": {
+            "type": "string",
+            "description": "A message confirming the success of the transaction"
+            }
+        }
+        },
         "BalanceResponse": {
             "type": "object",
             "properties": {
@@ -788,163 +902,69 @@
             },
             "required": ["status", "statusCode", "data", "message"]
         },
-        "TransactionResponse": {
+        "GetPackagesRequest": {
             "type": "object",
             "properties": {
-            "status": {
-                "type": "boolean",
-                "description": "Indicates if the request was successful"
+              "productType": {
+                "type": "string",
+                "description": "The type of product for which packages are requested (e.g., Data, Cable TV)"
+              },
+              "productProvider": {
+                "type": "string",
+                "description": "The provider offering the product (e.g., MTN, DStv)"
+              }
             },
-            "statusCode": {
-                "type": "integer",
-                "description": "HTTP status code of the response"
-            },
-            "data": {
+            "required": ["productType", "productProvider"]
+        },
+        "GetPackagesResponse": {
+        "type": "object",
+        "properties": {
+            "packages": {
+            "type": "array",
+            "items": {
                 "type": "object",
                 "properties": {
-                "current_page": {
-                    "type": "integer",
-                    "description": "Current page of the transaction results"
-                },
-                "data": {
-                    "type": "array",
-                    "items": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                        "type": "integer",
-                        "description": "Unique identifier for the transaction"
-                        },
-                        "uniqueIdentity": {
-                        "type": "string",
-                        "description": "Unique identity of the transaction"
-                        },
-                        "userIdentity": {
-                        "type": "string",
-                        "description": "User identity involved in the transaction"
-                        },
-                        "transactionAccount": {
-                        "type": "string",
-                        "description": "Account number used in the transaction, if available"
-                        },
-                        "serviceType": {
-                        "type": "string",
-                        "description": "Type of service for the transaction"
-                        },
-                        "productType": {
-                        "type": "string",
-                        "description": "Product type involved in the transaction"
-                        },
-                        "amount": {
-                        "type": "string",
-                        "description": "Amount of the transaction"
-                        },
-                        "transactionStatus": {
-                        "type": "string",
-                        "description": "Status of the transaction"
-                        },
-                        "transactionReference": {
-                        "type": "string",
-                        "description": "Unique transaction reference"
-                        },
-                        "thirdPartyRef": {
-                        "type": "string",
-                        "description": "Reference from the third party system"
-                        },
-                        "beneficiaryName": {
-                        "type": "string",
-                        "description": "Name of the beneficiary"
-                        },
-                        "beneficiaryNumber": {
-                        "type": "string",
-                        "description": "Account number of the beneficiary"
-                        },
-                        "beneficiaryPlatform": {
-                        "type": "string",
-                        "description": "Platform of the beneficiary"
-                        },
-                        "transactionType": {
-                        "type": "string",
-                        "description": "Type of transaction (e.g., DEBIT or CREDIT)"
-                        },
-                        "comment": {
-                        "type": "string",
-                        "description": "Comment on the transaction"
-                        },
-                        "balanceBefore": {
-                        "type": "string",
-                        "description": "Account balance before the transaction"
-                        },
-                        "balanceAfter": {
-                        "type": "string",
-                        "description": "Account balance after the transaction"
-                        },
-                        "isDeleted": {
-                        "type": "boolean",
-                        "description": "Indicates if the transaction has been deleted"
-                        },
-                        "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Timestamp of when the transaction was created"
-                        },
-                        "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Timestamp of when the transaction was last updated"
-                        },
-                        "logs": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                            "id": {
-                                "type": "integer",
-                                "description": "Unique identifier for the transaction log"
-                            },
-                            "status": {
-                                "type": "string",
-                                "description": "Status of the transaction log"
-                            },
-                            "description": {
-                                "type": "string",
-                                "description": "Description of the log"
-                            },
-                            "created_at": {
-                                "type": "string",
-                                "format": "date-time",
-                                "description": "Timestamp of when the log was created"
-                            }
-                            }
-                        }
-                        }
-                    }
-                    }
-                },
-                "first_page_url": {
+                "packageId": {
                     "type": "string",
-                    "description": "URL for the first page of transactions"
+                    "description": "The unique identifier for the package"
                 },
-                "last_page_url": {
+                "name": {
                     "type": "string",
-                    "description": "URL for the last page of transactions"
+                    "description": "The name of the package"
                 },
-                "next_page_url": {
-                    "type": "string",
-                    "description": "URL for the next page of transactions, if available"
-                },
-                "total": {
-                    "type": "integer",
-                    "description": "Total number of transactions available"
+                "price": {
+                    "type": "number",
+                    "description": "The price of the package"
                 }
                 }
-            },
-            "message": {
-                "type": "string",
-                "description": "Response message describing the result of the request"
             }
             },
-            "required": ["status", "statusCode", "data", "message"]
+            "message": {
+            "type": "string",
+            "description": "A message confirming the success of the request"
+            }
+        }
+        },
+        "GetProvidersResponse": {
+            "type": "object",
+            "properties": {
+              "providers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "providerId": {
+                      "type": "string",
+                      "description": "The unique identifier for the provider"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the provider"
+                    }
+                  }
+                }
+            }
+        }
         },          
         "Error": {
           "type": "object",
