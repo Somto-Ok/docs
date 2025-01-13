@@ -99,10 +99,10 @@
       ]
     },
     {
-      "group": "Billing",
+      "group": "VAS",
       "pages": [
         {
-          "group": "Airtime",
+          "group": "Mobile",
           "pages": [
             "api-reference/billing/create-vend-bundle",
             "api-reference/billing/create-purchase-airtime"
@@ -123,7 +123,7 @@
           ]
         },
         {
-          "group": "Bet",
+          "group": "Betting",
           "pages": [
             "api-reference/billing/verify-bet",
             "api-reference/billing/pay-bet"
