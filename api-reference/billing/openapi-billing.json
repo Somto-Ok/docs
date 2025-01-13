@@ -1,0 +1,979 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Kele API",
+      "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+      "license": {
+        "name": "MIT"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://corebanking-staging.boldmfb.com/api"
+      }
+    ],
+    "security": [
+      {
+        "apiKeyAuth": [],
+        "secretKeyAuth": []
+      }
+    ],   
+    "paths": {
+        "/billing/buy_data": {
+            "post": {
+                "description": "Purchase a data plan for a specified phone number.",
+                "requestBody": {
+                "description": "Details required to complete a data plan purchase.",
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/DataPurchaseRequest"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                "200": {
+                    "description": "Data purchase was successful. The response includes transaction details.",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/DataPurchaseResponse"
+                        }
+                    }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request. The provided parameters are invalid or missing.",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+        },      
+        "/billing/buy_airtime": {
+            "post": {
+                "description": "Purchase airtime for a specified phone number.",
+                "requestBody": {
+                "description": "Details required to complete an airtime purchase.",
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/AirtimePurchaseRequest"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                "200": {
+                    "description": "Airtime purchase was successful. The response includes transaction details.",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/AirtimePurchaseResponse"
+                        }
+                    }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request. The provided parameters are invalid or missing.",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+        },      
+        "/billing/get_cable_customer": {
+            "post": {
+                "description": "Retrieve customer details for a specific cable provider using their smart card number.",
+                "requestBody": {
+                "description": "Details required to fetch cable customer information.",
+                "required": true,
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/CableCustomerRequest"
+                    }
+                    }
+                }
+                },
+                "responses": {
+                "200": {
+                    "description": "Cable customer details retrieved successfully.",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/CableCustomerResponse"
+                        }
+                    }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request. The provided parameters are invalid or missing.",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+        },      
+        "/billing/buy_cable_tv_service": {
+        "post": {
+            "description": "Purchase a cable TV subscription for a customer",
+            "requestBody": {
+            "description": "Details required to process a cable TV subscription purchase",
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/BuyCableTvServiceRequest"
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "Cable TV subscription purchase was successful",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/BuyCableTvServiceResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        },      
+        "/billing/get_electricity_customer": {
+        "post": {
+            "description": "Retrieve details of an electricity customer based on the provided meter information",
+            "requestBody": {
+            "description": "Details required to fetch electricity customer information",
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/GetElectricityCustomerRequest"
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "Electricity customer details retrieved successfully",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/GetElectricityCustomerResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        },      
+        "/billing/buy_electricity": {
+        "post": {
+            "description": "Purchase electricity by providing meter and payment details",
+            "requestBody": {
+            "description": "Details required to complete an electricity purchase",
+            "required": true,
+            "content": {
+                "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/BuyElectricityRequest"
+                }
+                }
+            }
+            },
+            "responses": {
+            "200": {
+                "description": "Electricity purchase completed successfully",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/BuyElectricityResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        },      
+        "/billing/get_betting_customer": {
+        "get": {
+            "description": "Get Transaction List",
+            "responses": {
+            "200": {
+                "description": "Get list of all transactions",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/TransactionResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        },
+        "/billing/top_up_betting": {
+        "get": {
+            "description": "Get Transaction List",
+            "responses": {
+            "200": {
+                "description": "Get list of all transactions",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/TransactionResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        },
+        "/billing/packages": {
+        "get": {
+            "description": "Get Transaction List",
+            "responses": {
+            "200": {
+                "description": "Get list of all transactions",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/TransactionResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        },
+        "/billing/providers?productType=Electricity": {
+        "get": {
+            "description": "Get Transaction List",
+            "responses": {
+            "200": {
+                "description": "Get list of all transactions",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/TransactionResponse"
+                    }
+                }
+                }
+            },
+            "400": {
+                "description": "Bad Request, invalid parameters",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "$ref": "#/components/schemas/Error"
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    },
+    "components": {
+      "schemas": {
+        "DataPurchaseRequest": {
+            "type": "object",
+            "properties": {
+              "dataPlan": {
+                "type": "string",
+                "description": "The identifier of the data plan to purchase."
+              },
+              "phoneNumber": {
+                "type": "string",
+                "description": "The phone number to which the data plan will be applied."
+              },
+              "amount": {
+                "type": "string",
+                "description": "The amount to be charged for the data plan."
+              },
+              "serviceCode": {
+                "type": "string",
+                "description": "The service provider code for the data plan."
+              },
+              "transactionPin": {
+                "type": "string",
+                "description": "The PIN required to authorize the transaction."
+              }
+            },
+            "required": ["dataPlan", "phoneNumber", "amount", "serviceCode", "transactionPin"]
+        },
+        "DataPurchaseResponse": {
+        "type": "object",
+        "properties": {
+            "transactionId": {
+            "type": "string",
+            "description": "The unique identifier for the transaction."
+            },
+            "status": {
+            "type": "string",
+            "description": "The status of the data purchase (e.g., 'success' or 'failed')."
+            },
+            "balance": {
+            "type": "number",
+            "format": "float",
+            "description": "The remaining wallet balance after the purchase."
+            },
+            "message": {
+            "type": "string",
+            "description": "Additional information about the transaction status."
+            }
+        },
+        "required": ["transactionId", "status", "balance", "message"]
+        },
+        "AirtimePurchaseRequest": {
+            "type": "object",
+            "properties": {
+              "phoneNumber": {
+                "type": "string",
+                "description": "The phone number to which the airtime will be applied."
+              },
+              "amount": {
+                "type": "string",
+                "description": "The amount of airtime to be purchased."
+              },
+              "serviceCode": {
+                "type": "string",
+                "description": "The service provider code for the airtime."
+              },
+              "transactionPin": {
+                "type": "string",
+                "description": "The PIN required to authorize the transaction."
+              }
+            },
+            "required": ["phoneNumber", "amount", "serviceCode", "transactionPin"]
+        },
+        "AirtimePurchaseResponse": {
+        "type": "object",
+        "properties": {
+            "transactionId": {
+            "type": "string",
+            "description": "The unique identifier for the transaction."
+            },
+            "status": {
+            "type": "string",
+            "description": "The status of the airtime purchase (e.g., 'success' or 'failed')."
+            },
+            "balance": {
+            "type": "number",
+            "format": "float",
+            "description": "The remaining wallet balance after the purchase."
+            },
+            "message": {
+            "type": "string",
+            "description": "Additional information about the transaction status."
+            }
+        },
+        "required": ["transactionId", "status", "balance", "message"]
+        },
+        "CableCustomerRequest": {
+            "type": "object",
+            "properties": {
+              "cableProvider": {
+                "type": "string",
+                "description": "The name of the cable provider (e.g., 'gotv', 'dstv')."
+              },
+              "smartCardNumber": {
+                "type": "string",
+                "description": "The smart card number associated with the cable account."
+              }
+            },
+            "required": ["cableProvider", "smartCardNumber"]
+        },
+        "CableCustomerResponse": {
+        "type": "object",
+        "properties": {
+            "customerName": {
+            "type": "string",
+            "description": "The name of the cable customer."
+            },
+            "accountStatus": {
+            "type": "string",
+            "description": "The status of the cable account (e.g., 'active', 'inactive')."
+            },
+            "balance": {
+            "type": "number",
+            "format": "float",
+            "description": "The balance associated with the cable account."
+            },
+            "message": {
+            "type": "string",
+            "description": "Additional details about the customer or account status."
+            }
+        },
+        "required": ["customerName", "accountStatus", "balance", "message"]
+        },
+        "BuyCableTvServiceRequest": {
+            "type": "object",
+            "properties": {
+              "cableProvider": {
+                "type": "string",
+                "description": "The name of the cable TV provider (e.g., DSTV, GOTV)"
+              },
+              "smartCardNumber": {
+                "type": "string",
+                "description": "The customer's smart card number for the cable TV service"
+              },
+              "packageCode": {
+                "type": "string",
+                "description": "The code representing the subscription package"
+              },
+              "subscriptionPeriod": {
+                "type": "string",
+                "description": "The duration of the subscription period (e.g., 1 month)"
+              },
+              "transactionPin": {
+                "type": "string",
+                "description": "The customer's transaction PIN for authorization"
+              }
+            },
+            "required": ["cableProvider", "smartCardNumber", "packageCode", "subscriptionPeriod", "transactionPin"]
+        },
+        "BuyCableTvServiceResponse": {
+        "type": "object",
+        "properties": {
+            "transactionId": {
+            "type": "string",
+            "description": "The unique identifier for the transaction"
+            },
+            "status": {
+            "type": "string",
+            "description": "The status of the transaction (e.g., success, pending, failed)"
+            },
+            "message": {
+            "type": "string",
+            "description": "A message providing additional information about the transaction"
+            }
+        }
+        },
+        "GetElectricityCustomerRequest": {
+            "type": "object",
+            "properties": {
+              "utilitiesServiceCode": {
+                "type": "string",
+                "description": "The code for the electricity service provider (e.g., Enugu Electricity Distribution Company Prepaid)"
+              },
+              "meterNumber": {
+                "type": "string",
+                "description": "The customer's meter number"
+              }
+            },
+            "required": ["utilitiesServiceCode", "meterNumber"]
+        },
+        "GetElectricityCustomerResponse": {
+        "type": "object",
+        "properties": {
+            "customerName": {
+            "type": "string",
+            "description": "The name of the electricity customer"
+            },
+            "meterType": {
+            "type": "string",
+            "description": "The type of the meter (e.g., prepaid, postpaid)"
+            },
+            "accountBalance": {
+            "type": "number",
+            "description": "The current account balance of the customer"
+            },
+            "message": {
+            "type": "string",
+            "description": "A message providing additional information about the customer retrieval"
+            }
+        }
+        },
+        "BuyElectricityRequest": {
+            "type": "object",
+            "properties": {
+              "phoneNumber": {
+                "type": "string",
+                "description": "The phone number linked to the customer account"
+              },
+              "amount": {
+                "type": "number",
+                "description": "The amount to be used for electricity purchase"
+              },
+              "utilitiesServiceCode": {
+                "type": "string",
+                "description": "The code for the electricity service provider (e.g., EKEDC Prepaid)"
+              },
+              "meterNumber": {
+                "type": "string",
+                "description": "The customer's meter number"
+              },
+              "transactionPin": {
+                "type": "string",
+                "description": "The PIN used to authorize the transaction"
+              }
+            },
+            "required": ["phoneNumber", "amount", "utilitiesServiceCode", "meterNumber", "transactionPin"]
+        },
+        "BuyElectricityResponse": {
+        "type": "object",
+        "properties": {
+            "transactionId": {
+            "type": "string",
+            "description": "The unique identifier for the transaction"
+            },
+            "token": {
+            "type": "string",
+            "description": "The electricity token for the meter"
+            },
+            "amount": {
+            "type": "number",
+            "description": "The amount of electricity purchased"
+            },
+            "meterNumber": {
+            "type": "string",
+            "description": "The meter number for which the electricity was purchased"
+            },
+            "message": {
+            "type": "string",
+            "description": "A message confirming the success of the transaction"
+            }
+        }
+        },
+        "BalanceResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean",
+                    "description": "Indicates if the request was successful"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "description": "HTTP status code of the response"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "Unique identifier for the wallet"
+                            },
+                            "wallet_id": {
+                                "type": "string",
+                                "description": "Wallet ID associated with the account"
+                            },
+                            "ledger_balance": {
+                                "type": "string",
+                                "description": "Current ledger balance of the wallet"
+                            },
+                            "previous_ledger_balance": {
+                                "type": "string",
+                                "description": "Previous ledger balance of the wallet"
+                            },
+                            "available_balance": {
+                                "type": "string",
+                                "description": "Available balance in the wallet"
+                            },
+                            "previous_available_balance": {
+                                "type": "string",
+                                "description": "Previous available balance in the wallet"
+                            },
+                            "on_hold": {
+                                "type": "boolean",
+                                "description": "Indicates if the wallet is on hold"
+                            },
+                            "held_by": {
+                                "type": "string",
+                                "description": "Indicates who is holding the wallet, if applicable"
+                            },
+                            "hold_reason": {
+                                "type": "string",
+                                "description": "Reason for holding the wallet, if applicable"
+                            },
+                            "has_lien": {
+                                "type": "boolean",
+                                "description": "Indicates if the wallet has a lien"
+                            },
+                            "user_id": {
+                                "type": "integer",
+                                "description": "ID of the user associated with the wallet"
+                            },
+                            "agent_id": {
+                                "type": "integer",
+                                "description": "ID of the agent associated with the wallet"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp when the wallet was created"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp when the wallet was last updated"
+                            },
+                            "is_primary": {
+                                "type": "boolean",
+                                "description": "Indicates if this wallet is the primary one for the user"
+                            },
+                            "has_mandate": {
+                                "type": "boolean",
+                                "description": "Indicates if the wallet has a mandate"
+                            },
+                            "main_account": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "description": "Unique identifier for the main account"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "description": "ID of the user associated with the main account"
+                                    },
+                                    "wallet_id": {
+                                        "type": "integer",
+                                        "description": "Wallet ID linked to the main account"
+                                    },
+                                    "account_type": {
+                                        "type": "string",
+                                        "enum": ["individual", "corporate"],
+                                        "description": "Type of the main account"
+                                    },
+                                    "account_number": {
+                                        "type": "string",
+                                        "description": "Bank account number of the main account"
+                                    },
+                                    "account_name": {
+                                        "type": "string",
+                                        "description": "Name associated with the main account"
+                                    },
+                                    "bank_name": {
+                                        "type": "string",
+                                        "description": "Name of the bank for the main account"
+                                    },
+                                    "bank_code": {
+                                        "type": "string",
+                                        "description": "Bank's unique identification code"
+                                    },
+                                    "account_reference": {
+                                        "type": "string",
+                                        "description": "Reference for the main account"
+                                    },
+                                    "channel_reference": {
+                                        "type": "string",
+                                        "description": "Reference from the channel used for account creation"
+                                    },
+                                    "channel": {
+                                        "type": "string",
+                                        "description": "Channel through which the main account was created"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": ["active", "inactive"],
+                                        "description": "Current status of the main account"
+                                    },
+                                    "created_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp when the main account was created"
+                                    },
+                                    "updated_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Timestamp when the main account was last updated"
+                                    },
+                                    "is_permanent": {
+                                        "type": "boolean",
+                                        "description": "Indicates if the main account is permanent"
+                                    },
+                                    "bvn": {
+                                        "type": "string",
+                                        "description": "Bank Verification Number of the user, if applicable"
+                                    },
+                                    "bvn_name": {
+                                        "type": "string",
+                                        "description": "Name associated with the BVN, if applicable"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Response message describing the result of the request"
+                }
+            },
+            "required": ["status", "statusCode", "data", "message"]
+        },
+        "TransactionResponse": {
+            "type": "object",
+            "properties": {
+            "status": {
+                "type": "boolean",
+                "description": "Indicates if the request was successful"
+            },
+            "statusCode": {
+                "type": "integer",
+                "description": "HTTP status code of the response"
+            },
+            "data": {
+                "type": "object",
+                "properties": {
+                "current_page": {
+                    "type": "integer",
+                    "description": "Current page of the transaction results"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                        "type": "integer",
+                        "description": "Unique identifier for the transaction"
+                        },
+                        "uniqueIdentity": {
+                        "type": "string",
+                        "description": "Unique identity of the transaction"
+                        },
+                        "userIdentity": {
+                        "type": "string",
+                        "description": "User identity involved in the transaction"
+                        },
+                        "transactionAccount": {
+                        "type": "string",
+                        "description": "Account number used in the transaction, if available"
+                        },
+                        "serviceType": {
+                        "type": "string",
+                        "description": "Type of service for the transaction"
+                        },
+                        "productType": {
+                        "type": "string",
+                        "description": "Product type involved in the transaction"
+                        },
+                        "amount": {
+                        "type": "string",
+                        "description": "Amount of the transaction"
+                        },
+                        "transactionStatus": {
+                        "type": "string",
+                        "description": "Status of the transaction"
+                        },
+                        "transactionReference": {
+                        "type": "string",
+                        "description": "Unique transaction reference"
+                        },
+                        "thirdPartyRef": {
+                        "type": "string",
+                        "description": "Reference from the third party system"
+                        },
+                        "beneficiaryName": {
+                        "type": "string",
+                        "description": "Name of the beneficiary"
+                        },
+                        "beneficiaryNumber": {
+                        "type": "string",
+                        "description": "Account number of the beneficiary"
+                        },
+                        "beneficiaryPlatform": {
+                        "type": "string",
+                        "description": "Platform of the beneficiary"
+                        },
+                        "transactionType": {
+                        "type": "string",
+                        "description": "Type of transaction (e.g., DEBIT or CREDIT)"
+                        },
+                        "comment": {
+                        "type": "string",
+                        "description": "Comment on the transaction"
+                        },
+                        "balanceBefore": {
+                        "type": "string",
+                        "description": "Account balance before the transaction"
+                        },
+                        "balanceAfter": {
+                        "type": "string",
+                        "description": "Account balance after the transaction"
+                        },
+                        "isDeleted": {
+                        "type": "boolean",
+                        "description": "Indicates if the transaction has been deleted"
+                        },
+                        "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when the transaction was created"
+                        },
+                        "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of when the transaction was last updated"
+                        },
+                        "logs": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "Unique identifier for the transaction log"
+                            },
+                            "status": {
+                                "type": "string",
+                                "description": "Status of the transaction log"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description of the log"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp of when the log was created"
+                            }
+                            }
+                        }
+                        }
+                    }
+                    }
+                },
+                "first_page_url": {
+                    "type": "string",
+                    "description": "URL for the first page of transactions"
+                },
+                "last_page_url": {
+                    "type": "string",
+                    "description": "URL for the last page of transactions"
+                },
+                "next_page_url": {
+                    "type": "string",
+                    "description": "URL for the next page of transactions, if available"
+                },
+                "total": {
+                    "type": "integer",
+                    "description": "Total number of transactions available"
+                }
+                }
+            },
+            "message": {
+                "type": "string",
+                "description": "Response message describing the result of the request"
+            }
+            },
+            "required": ["status", "statusCode", "data", "message"]
+        },          
+        "Error": {
+          "type": "object",
+          "required": [
+            "error",
+            "message"
+          ],
+          "properties": {
+            "error": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "apiKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "x-api-key"
+        },
+        "secretKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "x-api-secret"
+        }
+      }  
+    }
+  }
