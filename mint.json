@@ -97,6 +97,41 @@
           ]
         }
       ]
+    },
+    {
+      "group": "Billing",
+      "pages": [
+        {
+          "group": "Airtime",
+          "pages": [
+            "api-reference/billing/create-vend-bundle",
+            "api-reference/billing/create-purchase-airtime"
+          ]
+        },
+        {
+          "group": "Cable",
+          "pages": [
+            "api-reference/billing/verify-cable",
+            "api-reference/billing/subscribe-cable"
+          ]
+        },
+        {
+          "group": "Energy",
+          "pages": [
+            "api-reference/billing/verify-energy",
+            "api-reference/billing/pay-energy"
+          ]
+        },
+        {
+          "group": "Bet",
+          "pages": [
+            "api-reference/billing/verify-bet",
+            "api-reference/billing/pay-bet"
+          ]
+        },
+        "api-reference/billing/get-packages",
+        "api-reference/billing/get-provider"
+      ]
     }
   ],
   "footerSocials": {
